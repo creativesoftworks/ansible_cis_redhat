@@ -29,94 +29,95 @@
       - section1.1.23
       - section1.1.24
 
-  - name: 1.1.18 Disable Mounting of cramfs Filesystems (Not Scored)
+  - name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install cramfs /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.18
+      - section1.1.1.1
 
-  - name: 1.1.19 Disable Mounting of freevxfs Filesystems (Not Scored)
+  - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install freevxfs /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.19
+      - section1.1.1.2
 
-  - name: 1.1.20 Disable Mounting of jffs2 Filesystems (Not Scored)
+  - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install jffs2 /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.20
+      - section1.1.1.3
 
-  - name: 1.1.21 Disable Mounting of hfs Filesystems (Not Scored)
+  - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install hfs /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.21
+      - section1.1.1.4
 
-  - name: 1.1.22 Disable Mounting of hfsplus Filesystems (Not Scored)
+  - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install hfsplus /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.22
+      - section1.1.1.5
 
-  - name: 1.1.23 Disable Mounting of squashfs Filesystems (Not Scored)
+  - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install squashfs /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.23
+      - section1.1.1.6
 
-  - name: 1.1.24 Disable Mounting of udf Filesystems (Not Scored)
+  - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled (Scored)
     lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install udf /bin/true"
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.24
+      - section1.1.1.7
 
-  - name: 1.2.4 Check to see if rhnsd daemon is installed (Not Scored)
-    stat: path=/etc/init.d/rhnsd
-    register: rhnsd_service
-    when: ansible_distribution == "RedHat"
+- name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled (Scored)
+  lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install vfat /bin/true"
     tags:
-      - notscored
-      - section1.2
-      - section1.2.4
+      - scored
+      - section1.1
+      - section1.1.1.8
 
-  - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
+  - name: 1.2.5 Disable the rhnsd Daemon (Not Scored)
     action: command /sbin/chkconfig rhnsd off
     when: ansible_distribution == "RedHat"
     tags:
       - notscored
       - section1.2
-      - section1.2.4
+      - section1.2.5
 
-  - name: 1.3.1 Install AIDE (Scored)
+  - name: 1.3.1 Ensure AIDE is installed (Scored)
     yum: >
       name=aide
       state=present
@@ -159,7 +160,7 @@
       - section1.3
       - section1.3.1
 
-  - name: 1.3.2 Implement Periodic Execution of File Integrity (Scored)
+  - name: 1.3.2 Ensure filesystem integrity is regularly checked (Scored)
     cron: >
       name="Run AIDE (CIS 1.3.2)"
       minute="0"
@@ -171,66 +172,74 @@
       - section1.3
       - section1.3.2
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
+  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
     lineinfile: >
       state=absent
       dest=/etc/grub.conf
       line="selinux=0"
     tags:
       - scored
-      - section1.4
-      - section1.4.1
+      - section1.6
+      - section1.6.1.1
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
+  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
     lineinfile: >
       state=absent
       dest=/etc/grub.conf
       line="enforcing=0"
     tags:
       - scored
-      - section1.4
-      - section1.4.1
+      - section1.6
+      - section1.6.1.1
 
-  - name: 1.4.2 Set the SELinux State (Scored)
-    yum: >
-      name=selinux-policy-targeted
-      state=present
+  - name: 1.6.1.2 Ensure the SELinux state is enforcing (Scored)
+    selinux: >
+      state=enforcing
     tags:
       - scored
-      - section1.4
-      - section1.4.2
+      - section1.6
+      - section1.6.1.2
 
-  - name: 1.4.3 Set the SELinux Policy (Scored)
+  - name: 1.6.1.3 Ensure SELinux policy is configured (Scored)
     selinux: >
       state=enforcing
       policy=targeted
     ignore_errors: yes
     tags:
       - scored
-      - section1.4
-      - section1.4.3
+      - section1.6
+      - section1.6.1.3
 
-  - name: 1.4.4 Remove SETroubleshoot (Scored)
+  - name: 1.6.1.4 Ensure SETroubleshoot is not installed (Scored)
     yum: >
       name=setroubleshoot
       state=absent
     tags:
       - scored
-      - section1.4
-      - section1.4.4
+      - section1.6
+      - section1.6.1.4
 
-  - name: 1.4.5 Remove MCS Translation Service (mcstrans) (Scored)
+  - name: 1.6.1.5 Ensure the MCS Translation Service (mcstrans) is not installed (Scored)
     yum: >
       name=mcstrans
       state=absent
     tags:
       - scored
-      - section1.4
-      - section1.4.5
+      - section1.6
+      - section1.6.1.5
 
-  - name: 1.4.6 Check for unconfined daemons (Scored)
+  - name: 1.6.1.6 Ensure no unconfined daemons exist (Scored)
     debug: msg="*** Check via cron jobs or manually."
     tags:
       - scored
-      - section1.4
-      - section1.4.6
+      - section1.6
+      - section1.6.1.6
+
+  - name: 1.6.2 Ensure SELinux is installed (Scored)
+    yum: >
+      name=libselinux
+      state=present
+    tag:
+      - scored
+      - section1.6
+      - section1.6.2

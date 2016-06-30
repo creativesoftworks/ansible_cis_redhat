@@ -15,17 +15,17 @@
 #   limitations under the License.
 #
 
-  - name: 4.1.1 Disable IP Forwarding (Scored)
+  - name: 3.1.1 Ensure IP forwarding is disabled (Scored)
     sysctl: >
       name=net.ipv4.ip_forward
       value=0
       state=present
     tags:
       - scored
-      - section4.1
-      - section4.1.1
+      - section3.1
+      - section3.1.1
 
-  - name: 4.1.2 Disable Send Packet Redirects (Scored)
+  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
     sysctl: >
       name=net.ipv4.conf.all.send_redirects
       value=0
@@ -33,10 +33,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.1
-      - section4.1.2
+      - section3.1
+      - section3.1.2
 
-  - name: 4.1.2 Disable Send Packet Redirects (Scored)
+  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
     sysctl: >
       name=net.ipv4.conf.default.send_redirects
       value=0
@@ -44,10 +44,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.1
-      - section4.1.2
+      - section3.1
+      - section3.1.2
 
-  - name: 4.2.1 Disable Source Routed Packet Acceptance (Scored)
+  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
     sysctl: >
       name=net.ipv4.conf.all.accept_source_route
       value=0
@@ -55,10 +55,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.1
+      - section3.2
+      - section3.2.1
 
-  - name: 4.2.1 Disable Source Routed Packet Acceptance (Scored)
+  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
     sysctl: >
       name=net.ipv4.conf.default.accept_source_route
       value=0
@@ -66,10 +66,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.1
+      - section3.2
+      - section3.2.1
 
-  - name: 4.2.2 Disable ICMP Redirect Acceptance (Scored)
+  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
     sysctl: >
       name=net.ipv4.conf.all.accept_redirects
       value=0
@@ -77,10 +77,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.2
+      - section3.2
+      - section3.2.2
 
-  - name: 4.2.2 Disable ICMP Redirect Acceptance (Scored)
+  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
     sysctl: >
       name=net.ipv4.conf.default.accept_redirects
       value=0
@@ -88,10 +88,32 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.2
+      - section3.2
+      - section3.2.2
 
-  - name: 4.2.4 Log Suspicious Packets (Scored)
+  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.secure_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.3
+
+  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.secure_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.3
+
+  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
     sysctl: >
       name=net.ipv4.conf.all.log_martians
       value=1
@@ -99,10 +121,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.4
+      - section3.2
+      - section3.2.4
 
-  - name: 4.2.4 Log Suspicious Packets (Scored)
+  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
     sysctl: >
       name=net.ipv4.conf.default.log_martians
       value=1
@@ -110,10 +132,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.4
+      - section3.2
+      - section3.2.4
 
-  - name: 4.2.5 Enable Ignore Broadcast Requests (Scored)
+  - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
     sysctl: >
       name=net.ipv4.icmp_echo_ignore_broadcasts
       value=1
@@ -121,10 +143,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.5
+      - section3.2
+      - section3.2.5
 
-  - name: 4.2.6 Enable Bad Error Message Protection (Scored)
+  - name: 3.2.6 Ensure bogus ICMP responses are ignored (Scored)
     sysctl: >
       name=net.ipv4.icmp_ignore_bogus_error_responses
       value=1
@@ -132,10 +154,32 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.6
+      - section3.2
+      - section3.2.6
 
-  - name: 4.2.8 Enable TCP SYN Cookies (Scored)
+  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.rp_filter
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.7
+
+  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.rp_filter
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.7
+
+  - name: 3.2.8 Ensure TCP SYN Cookies is enabled (Scored)
     sysctl: >
       name=net.ipv4.tcp_syncookies
       value=1
@@ -143,10 +187,10 @@
       ignoreerrors=true
     tags:
       - scored
-      - section4.2
-      - section4.2.8
+      - section3.2
+      - section3.2.8
 
-  - name: 4.4.1.1 Disable IPv6 Router Advertisements (Not Scored)
+  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
     sysctl: >
       name=net.ipv6.conf.all.accept_ra
       value=0
@@ -154,11 +198,10 @@
       ignoreerrors=true
     tags:
       - notscored
-      - section4.4
-      - section4.4.1
-      - section4.4.1.1
+      - section3.3
+      - section3.3.1
 
-  - name: 4.4.1.1 Disable IPv6 Router Advertisements (Not Scored)
+  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
     sysctl: >
       name=net.ipv6.conf.default.accept_ra
       value=0
@@ -166,11 +209,10 @@
       ignoreerrors=true
     tags:
       - notscored
-      - section4.4
-      - section4.4.1
-      - section4.4.1.1
+      - section3.3
+      - section3.3.1
 
-  - name: 4.4.1.2 Disable IPv6 Redirect Acceptance (Not Scored)
+  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
     sysctl: >
       name=net.ipv6.conf.all.accept_redirects
       value=0
@@ -178,11 +220,10 @@
       ignoreerrors=true
     tags:
       - notscored
-      - section4.4
-      - section4.4.1
-      - section4.4.1.2
+      - section3.3
+      - section3.3.2
 
-  - name: 4.4.1.2 Disable IPv6 Redirect Acceptance (Not Scored)
+  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
     sysctl: >
       name=net.ipv6.conf.default.accept_redirects
       value=0
@@ -190,11 +231,10 @@
       ignoreerrors=true
     tags:
       - notscored
-      - section4.4
-      - section4.4.1
-      - section4.4.1.2
+      - section3.3
+      - section3.3.2
 
-  - name: 4.4.2 Disable IPv6 (disable in network config) (Not Scored)
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
     lineinfile: >
       state=present
       dest=/etc/sysconfig/network
@@ -203,10 +243,10 @@
     when: disable_ipv6
     tags:
       - notscored
-      - section4.4
-      - section4.4.2
+      - section3.3
+      - section3.3.3
 
-  - name: 4.4.2 Disable IPv6 (disable in network config) (Not Scored)
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
     lineinfile: >
       state=present
       dest=/etc/sysconfig/network
@@ -215,10 +255,10 @@
     when: disable_ipv6
     tags:
       - notscored
-      - section4.4
-      - section4.4.2
+      - section3.3
+      - section3.3.3
 
-  - name: 4.4.2 Disable IPv6 (disable via modprobe) (Not Scored)
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
     lineinfile: >
       state=present
       create=yes
@@ -227,10 +267,10 @@
     when: disable_ipv6
     tags:
       - notscored
-      - section4.4
-      - section4.4.2
+      - section3.3
+      - section3.3.3
 
-  - name: 4.4.2 Disable IPv6 (disable ip6tables) (Not Scored)
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
     service: >
       name=ip6tables
       enabled=no
@@ -238,28 +278,28 @@
     when: disable_ipv6
     tags:
       - notscored
-      - section4.4
-      - section4.4.2
+      - section3.3
+      - section3.3.3
 
-  - name: 4.4.2 Disable IPv6 (flush routes) (Not Scored)
+  - name: 3.3.3 Ensure IPv6 is disabled (flush routes) (Not Scored)
     command: /sbin/sysctl -w net.ipv6.route.flush=1
     ignore_errors: yes
     when: disable_ipv6
     tags:
       - notscored
-      - section4.4
-      - section4.4.2
+      - section3.3
+      - section3.3.3
 
-  - name: 4.5.1 Install TCP Wrappers (Not Scored)
+  - name: 3.4.1 Ensure TCP Wrappers is installed (Scored)
     yum: >
       name=tcp_wrappers
       state=present
     tags:
-      - notscored
-      - section4.5
-      - section4.5.1
+      - scored
+      - section3.4
+      - section3.4.1
 
-  - name: 4.5.2 Create /etc/hosts.allow (Not Scored)
+  - name: 3.4.2 Ensure /etc/hosts.allow is configured (Scored)
     lineinfile: >
       state=present
       create=yes
@@ -268,39 +308,39 @@
       line=ALL:{{ tcp_allow | default("ALL") }}
     tags:
       - notscored
-      - section4.5
-      - section4.5.2
+      - section3.4
+      - section3.4.2
 
-  - name: 4.5.3 Verify Permissions on /etc/hosts.allow (Scored)
-    file: >
-      path=/etc/hosts.allow
-      mode=0644
-    tags:
-      - scored
-      - section4.5
-      - section4.5.3
-
-  - name: 4.5.4 Create /etc/hosts.deny (Not Scored)
+  - name: 3.4.3 Ensure /etc/hosts.deny is configured (Scored)
     lineinfile: >
       state=present
       create=yes
       dest=/etc/hosts.deny
       line=ALL:ALL
     tags:
-      - notscored
-      - section4.5
-      - section4.5.4
+      - scored
+      - section3.4
+      - section3.4.3
 
-  - name: 4.5.5 Verify Permissions on /etc/hosts.deny (Scored)
+  - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured (Scored)
+    file: >
+      path=/etc/hosts.allow
+      mode=0644
+    tags:
+      - scored
+      - section3.4
+      - section3.4.4
+
+  - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured (Scored)
     file: >
       path=/etc/hosts.deny
       mode=0644
     tags:
       - scored
-      - section4.5
-      - section4.5.5
+      - section3.4
+      - section3.4.5
 
-  - name: 4.6.1 Disable DCCP (Not Scored)
+  - name: 3.5.1 Ensure DCCP is disabled (Not Scored)
     lineinfile: >
       state=present
       create=yes
@@ -308,10 +348,10 @@
       line="install dccp /bin/true"
     tags:
       - notscored
-      - section4.6
-      - section4.6.1
+      - section3.5
+      - section3.5.1
 
-  - name: 4.6.2 Disable SCTP (Not Scored)
+  - name: 3.5.2 Ensure SCTP is disabled (Not Scored)
     lineinfile: >
       state=present
       create=yes
@@ -319,10 +359,10 @@
       line="install sctp /bin/true"
     tags:
       - notscored
-      - section4.6
-      - section4.6.2
+      - section3.5
+      - section3.5.2
 
-  - name: 4.6.3 Disable RDS (Not Scored)
+  - name: 3.5.3 Ensure RDS is disabled (Not Scored)
     lineinfile: >
       state=present
       create=yes
@@ -330,10 +370,10 @@
       line="install rds /bin/true"
     tags:
       - notscored
-      - section4.6
-      - section4.6.3
+      - section3.5
+      - section3.5.3
 
-  - name: 4.6.4 Disable TIPC (Not Scored)
+  - name: 3.5.4 Ensure TIPC is disabled (Not Scored)
     lineinfile: >
       state=present
       create=yes
@@ -341,27 +381,71 @@
       line="install tipc /bin/true"
     tags:
       - notscored
-      - section4.6
-      - section4.6.4
+      - section3.5
+      - section3.5.4
 
-  - name: 4.7 Enable IPtables (Scored)
-    service: >
+  - name: 3.6.1 Ensure iptables is installed (Scored)
+    yum: >
       name=iptables
-      enabled=yes
-      state=started
-    when: enable_iptables
+      state=present
     tags:
       - scored
-      - section4.7
+      - section3.6
+      - section3.6.1
 
-  - name: 4.8 Enable IP6tables (Not Scored)
+  - name: 3.6.1 Ensure iptables is running (Scored)
     service: >
-      name=ip6tables
-      enabled=yes
+      name=iptables
       state=started
-    ignore_errors: yes
-    when: enable_ip6tables
+      enabled=yes
     tags:
-      - notscored
-      - section4.8
-      
+      - scored
+      - section3.6
+      - section3.6.1
+
+  - name: 3.6.2 Ensure default deny firewall policy (Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.6
+      - section3.6.2
+
+  - name: 3.6.3 Ensure loopback traffic is configured (Scored)
+    service: >
+      name=iptables
+      state=started
+      enabled=yes
+    tags:
+      - scored
+      - section3.6
+      - section3.6.3
+
+  - name: 3.6.4 Ensure outbound and established connections are configured (Not Scored)
+    service: >
+      name=iptables
+      state=started
+      enabled=yes
+    tags:
+      - scored
+      - section3.6
+      - section3.6.4
+
+  - name: 3.6.5 Ensure firewall rules exist for all open ports (Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.6
+      - section3.6.5
+
+  - name: 3.6.6 Ensure firewall rules exist for all open ports (Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.6
+      - section3.6.6
+
+  - name: 3.7 Ensure wireless interfaces are disabled (Not Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.7

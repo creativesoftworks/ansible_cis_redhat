@@ -15,14 +15,14 @@
 #   limitations under the License.
 #
 
-  - name: 1.1.1 Create Separate Partition for /tmp (Scored)
+  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
     debug: msg="*** Manually create Separate Partition for /tmp."
     tags:
       - scored
       - section1.1
-      - section1.1.1
+      - section1.1.2
 
-  - name: 1.1.2 - 1.1.4 Set nodev,nosuid,noexec option for /tmp Partition (Scored)
+  - name: 1.1.3 - 1.1.5 Ensure nodev,nosuid,noexec option set for /tmp Partition (Scored)
     mount: >
       name="/tmp"
       src={{ item.device }}
@@ -34,53 +34,62 @@
     tags:
       - scored
       - section1.1
-      - section1.1.2
       - section1.1.3
       - section1.1.4
-
-  - name: 1.1.5 Create Separate Partition for /var (Scored)
-    debug: msg="*** Manually create Separate Partition for /var."
-    tags:
-      - scored
-      - section1.1
       - section1.1.5
 
-  - name: 1.1.6 Bind Mount the /var/tmp directory to /tmp (Scored)
-    mount: >
-      name="/var/tmp"
-      src="/tmp"
-      state=mounted
-      fstype="none"
-      opts="bind"
-    when: item.mount == "/tmp"
-    with_items: ansible_mounts
+  - name: 1.1.6 Ensure separate partition exists for /var (Scored)
+    debug: msg="*** Manually create Separate Partition for /var."
     tags:
       - scored
       - section1.1
       - section1.1.6
 
-  - name: 1.1.7 Create Separate Partition for /var/log (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log."
+  - name: 1.1.7 Ensure separate partition exists for /var/tmp (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/tmp."
     tags:
       - scored
       - section1.1
       - section1.1.7
 
-  - name: 1.1.8 Create Separate Partition for /var/log/audit (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log/audit."
+  - name: 1.1.8 - 1.1.10 Ensure nodev,nosuid,noexec option set for /var/tmp Partition (Scored)
+    mount: >
+      name="/var/tmp"
+      src={{ item.device }}
+      state=mounted
+      fstype={{ item.fstype }}
+      opts="nodev,nosuid,noexec"
+    when: item.mount == "/var/tmp"
+    with_items: ansible_mounts
     tags:
       - scored
       - section1.1
       - section1.1.8
+      - section1.1.9
+      - section1.1.10
 
-  - name: 1.1.9 Create Separate Partition for /home (Scored)
+  - name: 1.1.11 Ensure separate partition exists for /var/log (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/log."
+    tags:
+      - scored
+      - section1.1
+      - section1.1.11
+
+  - name: 1.1.12 Ensure separate partition exists for /var/log/audit (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/log/audit."
+    tags:
+      - scored
+      - section1.1
+      - section1.1.12
+
+  - name: 1.1.13 Ensure separate partition exists for /home (Scored)
     debug: msg="*** Manually create Separate Partition for /home."
     tags:
       - scored
       - section1.1
-      - section1.1.9
+      - section1.1.13
 
-  - name: 1.1.10 Add nodev Option to /home Partition (Scored)
+  - name: 1.1.14 Ensure nodev option set on /home partition (Scored)
     mount: >
       name="/home"
       src={{ item.device }}
@@ -92,30 +101,9 @@
     tags:
       - scored
       - section1.1
-      - section1.1.10
+      - section1.1.14
 
-  - name: 1.1.11 Add nodev Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.11
-
-  - name: 1.1.12 Add noexec Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
-    tags:
-      - notscored
-      - section1.1
-      - section1.1.12
-
-  - name: 1.1.13 Add nosuid Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
-    tags:
-      - notscored
-      - section1.1
-      - section1.1.13
-
-  - name: 1.1.14 - 1.1.16 Add noexec Option to /dev/shm Partition (Scored)
+  - name: 1.1.15 - 1.1.17 Ensure nodev, nosuid, noexec option set on /dev/shm Partition (Scored)
     mount: >
       name="/dev/shm"
       src="none"
@@ -124,19 +112,48 @@
       opts="nodev,nosuid,noexec"
     tags:
       - section1.1
-      - section1.1.14
       - section1.1.15
       - section1.1.16
+      - section1.1.17
       - scored
 
-  - name: 1.1.17 Set sticky bit on all world-writeable directories (Scored)
+  - name: 1.1.18 Ensure nodev option set on removable media partitions (Not Scored)
+    debug: msg="*** Not relevant."
+    tags:
+      - scored
+      - section1.1
+      - section1.1.18
+
+  - name: 1.1.19 Ensure nosuid option set on removable media partitions (Not Scored)
+    debug: msg="*** Not relevant."
+    tags:
+      - notscored
+      - section1.1
+      - section1.1.19
+
+  - name: 1.1.20 Ensure noexec option set on removable media partitions (Not Scored)
+    debug: msg="*** Not relevant."
+    tags:
+      - notscored
+      - section1.1
+      - section1.1.20
+
+
+  - name: 1.1.21 Ensure sticky bit is set on all world-writable directories (Scored)
     debug: msg="*** May be too destructive -- see notes"
     tags:
       - scored
       - section1.1
-      - section1.1.17
+      - section1.1.21
 
-  - name: 1.2.1 Configure Connection to the RHN RPM repositories (Not Scored)
+  - name: 1.1.22 Disable Automounting (Scored)
+    debug: msg="*** May be too destructive -- see notes"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.22
+
+  - name: 1.2.1 Ensure package manager repositories are configured (Not Scored)
     command: yum check-update
     register: result
     failed_when: "result.rc == 1"
@@ -146,31 +163,32 @@
       - section1.2
       - section1.2.1
 
-  - name: 1.2.2 Verify Red Hat GPG key is installed (Scored)
-    command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release 
-    when: ansible_distribution == "RedHat"
-    tags:
-      - scored
-      - section1.2
-      - section1.2.2
-
-  - name: 1.2.3 Verify that gpgcheck is Globally Activated (Scored)
+  - name: 1.2.2 Ensure gpgcheck is globally activated (Scored)
     lineinfile: >
       state=present
-      dest=/etc/yum.conf
+      dest=/etc/yum.conf 
+      #comment need to add /etc/yum.repos.d/*
       regexp=^gpgcheck=
       line=gpgcheck=1
     tags:
       - scored
       - section1.2
+      - section1.2.2
+
+  - name: 1.2.3 Ensure GPG keys are configured (Not Scored)
+    command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release 
+    when: ansible_distribution == "RedHat"
+    tags:
+      - scored
+      - section1.2
       - section1.2.3
 
-  - name: 1.2.5 Obtain software package updates with yum (Not Scored)
+  - name: 1.2.4 Ensure Red Hat Network or Subscription Manager connection is configured (Not Scored)
     debug: msg="*** Check manually."
     tags:
       - notscored
       - section1.2
-      - section1.2.5
+      - section1.2.4
 
   - name: 1.2.6 Verify package integrity using RPM (Not Scored)
     debug: msg="*** Check via cron/AIDE/manually"
@@ -218,41 +236,41 @@
       - section1.5
       - section1.5.2
 
-  - name: 1.5.3 Set boot loader password (Scored)
+  - name: 1.4.2 Ensure bootloader password is set (Scored)
     debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
     tags:
       - scored
-      - section1.5
-      - section1.5.3
+      - section1.4
+      - section1.4.2
 
-  - name: 1.5.4 Require authentication for single-user mode (Scored)
+  - name: 1.4.3 Ensure authentication required for single user mode (Scored)
     debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
     tags:
       - scored
-      - section1.5
-      - section1.5.4
+      - section1.4
+      - section1.4.3
 
-  - name: 1.5.5 Disable Interactive Boot (Scored)
+  - name: 1.4.4 Ensure interactive boot is not enabled (Scored)
     lineinfile: >
       dest=/etc/sysconfig/init
       regexp=^PROMPT=
       line=PROMPT=no
     tags:
       - scored
-      - section1.5
-      - section1.5.5
+      - section1.4
+      - section1.4.4
 
-  - name: 1.6.1 Restrict core dumps (Scored) - via pam
+  - name: 1.5.1 Ensure core dumps are restricted (Scored)
     lineinfile: >
       dest=/etc/security/limits.conf
       line="* hard core 0"
       insertafter=EOF
     tags:
       - scored
-      - section1.6
-      - section1.6.1
+      - section1.5
+      - section1.5.1
 
-  - name: 1.6.1 Restrict core dumps (Scored) - via sysctl
+  - name: 1.5.1 Ensure core dumps are restricted (Scored) - via sysctl
     sysctl: >
       name=fs.suid_dumpable
       value=0
@@ -260,8 +278,8 @@
       ignoreerrors=yes
     tags:
       - scored
-      - section1.6
-      - section1.6.1
+      - section1.5
+      - section1.5.1
 
   - name: 1.6.2 Configure ExecShield (Scored)
     sysctl: >
@@ -274,7 +292,7 @@
       - section1.6
       - section1.6.2
 
-  - name: 1.6.3 Enable Randomized Virtual Memory Region Placement (Scored)
+  - name: 1.5.3 Ensure address space layout randomization (ASLR) is enabled (Scored)
     sysctl: >
       name=kernel.randomize_va_space
       value=2
@@ -282,8 +300,8 @@
       ignoreerrors=yes
     tags:
       - scored
-      - section1.6
-      - section1.6.3
+      - section1.5
+      - section1.5.3
 
   - name: 1.7 Use the Latest OS Release (Not Scored)
     command: >
@@ -292,3 +310,66 @@
     tags:
       - notscored
       - section1.7
+
+  - name: 1.7.1.1 Ensure message of the day is configured properly (Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.1
+
+  - name: 1.7.1.2 Ensure local login warning banner is configured properly (Not Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.2
+
+  - name: 1.7.1.3 Ensure remote login warning banner is configured properly (Not Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.3
+
+  - name: 1.7.1.4 Ensure permissions on /etc/motd are configured (Not Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.4
+
+  - name: 1.7.1.5 Ensure permissions on /etc/issue are configured (Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.5
+
+  - name: 1.7.1.6 Ensure permissions on /etc/issue.net are configured (Not Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.1.6
+
+  - name: 1.7.2 Ensure GDM login banner is configured (Scored)
+    
+
+    tags:
+      - scored
+      - section1.7
+      - section1.7.2
+
+  - name: 1.8 Ensure updates, patches, and additional security software are installed (Not Scored)
+    
+
+    tags:
+      - scored
+      - section1.8
