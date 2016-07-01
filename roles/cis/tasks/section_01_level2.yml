@@ -154,7 +154,7 @@
     yum: >
       name=libselinux
       state=present
-    tag:
+    tags:
       - scored
       - section1.6
       - section1.6.2

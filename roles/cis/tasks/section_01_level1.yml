@@ -86,8 +86,8 @@
       - section1.1
       - section1.1.1.7
 
-- name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled (Scored)
-  lineinfile: >
+  - name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled (Scored)
+    lineinfile: >
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install vfat /bin/true"
@@ -204,11 +204,10 @@
       - section1.2
       - section1.2.1
 
-  - name: 1.2.2 Ensure gpgcheck is globally activated (Scored)
+  - name: 1.2.2 Ensure gpgcheck is globally activated (Scored)       #comment need to add /etc/yum.repos.d/*
     lineinfile: >
       state=present
       dest=/etc/yum.conf 
-      #comment need to add /etc/yum.repos.d/*
       regexp=^gpgcheck=
       line=gpgcheck=1
     tags:

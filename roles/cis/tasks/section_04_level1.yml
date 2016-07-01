@@ -114,7 +114,7 @@
 
   - name: 4.2.2.1 Ensure syslog-ng service is enabled (Scored)
     debug: msg="This section only applies if syslog-ng is installed on the system."
-    tag:
+    tags:
       - scored
       - section4.2
       - section4.2.2
@@ -122,7 +122,7 @@
 
   - name: 4.2.2.2 Ensure logging is configured (Not Scored)
     debug: msg="This section only applies if syslog-ng is installed on the system."
-    tag:
+    tags:
       - notscored
       - section4.2
       - section4.2.2
@@ -130,7 +130,7 @@
 
   - name: 4.2.2.3 Ensure syslog-ng default file permissions configured (Scored)
     debug: msg="This section only applies if syslog-ng is installed on the system."
-    tag:
+    tags:
       - scored
       - section4.2
       - section4.2.2
@@ -138,7 +138,7 @@
 
   - name: 4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log host (Not Scored)
     debug: msg="This section only applies if syslog-ng is installed on the system."
-    tag:
+    tags:
       - notscored
       - section4.2
       - section4.2.2
@@ -146,7 +146,7 @@
 
   - name: 4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)
     debug: msg="This section only applies if syslog-ng is installed on the system."
-    tag:
+    tags:
       - notscored
       - section4.2
       - section4.2.2
