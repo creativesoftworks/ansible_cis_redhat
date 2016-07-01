@@ -314,7 +314,3 @@
       - check-only
       - section6.2
       - section6.2.19
-
-#  - debug: var=result9_2_19.stdout
-#    tags:
-#      - section9.2.19
