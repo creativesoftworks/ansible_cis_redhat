@@ -14,7 +14,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
+# Section 2.1 inetd Services
+#
   - name: 2.1.1 Ensure chargen services are not enabled (Disable service) (Scored)
     service: >
         name=chargen-dgram
@@ -157,11 +158,15 @@
       - section2.1
       - section2.1.5
 
-  - name: 2.1.6 Ensure rsh server is not enabled (Scored)
+  - name: 2.1.6 Ensure rsh server is not enabled (Scored) #need to update to add {{ item }}
     service: >
       name=rsh
       state=stopped
       enabled=no
+    withitem:
+      - rexec
+      - rlogin
+      - rsh
     tags:
       - scored
       - section2.1
@@ -217,6 +222,8 @@
       - section2.1
       - section2.1.11
 
+# Section 2.2 Special Purpose Services
+
   - name: 2.2.1.1 Ensure time synchronization is in use (Not Scored)
     yum: >
       name=ntp
@@ -227,11 +234,55 @@
       - section2.2.1
 
   - name: 2.2.1.2 Ensure ntp is configured (Scored)
+    yum: >
+      pkg=ntp
+      state=installed    
+    always_run: yes
+    tags:
+      - scored
+      - section2.2
+      - section2.2.1.2
+      
+  - name: 2.2.1.2 Ensure ntp is configured (Scored)
+    service: >
+      name=ntpd
+      state=started
+      enabled=yes
+    tags:
+      - scored
+      - section2.2
+      - section2.2.1.2
+
+  - name: 2.2.1.2 Ensure ntp is configured (Scored)
     lineinfile: >
       dest=/etc/sysconfig/ntpd
       regexp=^OPTIONS=
       line=OPTIONS="-u ntp:ntp"
       state=present
+    tags:
+      - scored
+      - section2.2
+      - section2.2.1.2
+
+  - name: 2.2.1.2 Ensure ntp is configured (Scored)
+    lineinfile: >
+      dest=/etc/ntp.conf
+      state=present
+      regexp="^restrict default"
+      line="restrict default kod nomodify notrap nopeer noquery"
+      insertafter=EOF
+    tags:
+      - scored
+      - section2.2
+      - section2.2.1.2
+
+  - name: 2.2.1.2 Ensure ntp is configured (Scored)
+    lineinfile: >
+      dest=/etc/ntp.conf
+      state=present
+      regexp="^restrict -6 default"
+      line="restrict -6 default kod nomodify notrap nopeer noquery"
+      insertafter=EOF
     tags:
       - scored
       - section2.2
@@ -292,7 +343,7 @@
       - section2.2
       - section2.2.4
 
-  - name: 2.2.5 Ensure DHCP Server is not enabled (Scored)
+  - name: 2.2.5 Ensure DHCP Server is not enabled (Scored) #do we need to check if these packages are installed before we attend to stop the service?
     service: >
       name=dhcpd
       state=stopped
@@ -425,6 +476,8 @@
       - scored
       - section2.2
       - section2.2.16
+
+# Section 2.3 Service Clients
 
   - name: 2.3.1 Ensure NIS Client is not installed (Scored)
     yum: >

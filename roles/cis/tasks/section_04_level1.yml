@@ -14,438 +14,111 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
-  - name: 3.1.1 Ensure IP forwarding is disabled (Scored)
-    sysctl: >
-      name=net.ipv4.ip_forward
-      value=0
-      state=present
-    tags:
-      - scored
-      - section3.1
-      - section3.1.1
-
-  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.send_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.1
-      - section3.1.2
-
-  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.send_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.1
-      - section3.1.2
-
-  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.accept_source_route
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.1
-
-  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.accept_source_route
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.1
-
-  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.accept_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.2
-
-  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.accept_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.2
-
-  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.secure_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.3
-
-  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.secure_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.3
-
-  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.log_martians
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.4
-
-  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.log_martians
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.4
-
-  - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
-    sysctl: >
-      name=net.ipv4.icmp_echo_ignore_broadcasts
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.5
-
-  - name: 3.2.6 Ensure bogus ICMP responses are ignored (Scored)
-    sysctl: >
-      name=net.ipv4.icmp_ignore_bogus_error_responses
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.6
-
-  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
-    sysctl: >
-      name=net.ipv4.conf.all.rp_filter
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.7
-
-  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
-    sysctl: >
-      name=net.ipv4.conf.default.rp_filter
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.7
-
-  - name: 3.2.8 Ensure TCP SYN Cookies is enabled (Scored)
-    sysctl: >
-      name=net.ipv4.tcp_syncookies
-      value=1
-      state=present
-      ignoreerrors=true
-    tags:
-      - scored
-      - section3.2
-      - section3.2.8
-
-  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
-    sysctl: >
-      name=net.ipv6.conf.all.accept_ra
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.1
-
-  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
-    sysctl: >
-      name=net.ipv6.conf.default.accept_ra
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.1
-
-  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv6.conf.all.accept_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.2
-
-  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
-    sysctl: >
-      name=net.ipv6.conf.default.accept_redirects
-      value=0
-      state=present
-      ignoreerrors=true
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.2
-
-  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/sysconfig/network
-      regexp=^NETWORKING_IPV6
-      line=NETWORKING_IPV6=no
-    when: disable_ipv6
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.3
-
-  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/sysconfig/network
-      regexp=^IPV6INIT
-      line=IPV6INIT=no
-    when: disable_ipv6
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.3
-
-  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
-    lineinfile: >
-      state=present
-      create=yes
-      dest=/etc/modprobe.d/ipv6.conf
-      line="options ipv6 disable=1"
-    when: disable_ipv6
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.3
-
-  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
-    service: >
-      name=ip6tables
-      enabled=no
-      state=stopped
-    when: disable_ipv6
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.3
-
-  - name: 3.3.3 Ensure IPv6 is disabled (flush routes) (Not Scored)
-    command: /sbin/sysctl -w net.ipv6.route.flush=1
-    ignore_errors: yes
-    when: disable_ipv6
-    tags:
-      - notscored
-      - section3.3
-      - section3.3.3
-
-  - name: 3.4.1 Ensure TCP Wrappers is installed (Scored)
+#   Section 4.2 Configure Logging
+#
+  - name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
     yum: >
-      name=tcp_wrappers
+      name=rsyslog
       state=present
     tags:
       - scored
-      - section3.4
-      - section3.4.1
+      - section4.2
+      - section4.2.1
+      - section4.2.1.1
 
-  - name: 3.4.2 Ensure /etc/hosts.allow is configured (Scored)
-    lineinfile: >
-      state=present
-      create=yes
-      dest=/etc/hosts.allow
-      regexp=^ALL
-      line=ALL:{{ tcp_allow | default("ALL") }}
-    tags:
-      - notscored
-      - section3.4
-      - section3.4.2
-
-  - name: 3.4.3 Ensure /etc/hosts.deny is configured (Scored)
-    lineinfile: >
-      state=present
-      create=yes
-      dest=/etc/hosts.deny
-      line=ALL:ALL
+  - name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
+    service: >
+      name=rsyslog
+      enabled=yes
+      state=started
     tags:
       - scored
-      - section3.4
-      - section3.4.3
+      - section4.2
+      - section4.2.1
+      - section4.2.1.1
 
-  - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured (Scored)
-    file: >
-      path=/etc/hosts.allow
+  - name: 4.2.1.2 Ensure logging is configured (Not Scored) #comment: rsyslog.conf needs to be edited to match the updated CIS recommendations.
+    copy: >
+      src=etc/rsyslog.conf
+      dest=/etc/rsyslog.conf
+      owner=root
+      group=root
       mode=0644
     tags:
-      - scored
-      - section3.4
-      - section3.4.4
+      - notscored
+      - section4.2
+      - section4.2.1
+      - section4.2.1.2
 
-  - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured (Scored)
+  - name: 4.2.1.3 Ensure rsyslog default file permissions configured (Scored) #comment: this needs to be reviewed by a savvy linux guru.
     file: >
-      path=/etc/hosts.deny
-      mode=0644
+      path=/var/log/{{ item }}
+      state=touch
+      owner=root
+      group=wheel
+      mode=0640
+    with_items:
+        - messages
+        - kern.log
+        - daemon.log
+        - syslog
+        - unused.log
     tags:
       - scored
-      - section3.4
-      - section3.4.5
+      - section4.2
+      - section4.2.1
+      - section4.2.1.3
 
-  - name: 3.5.1 Ensure DCCP is disabled (Not Scored)
+  - name: 4.2.1.4 Ensure rsyslog is configured to send logs to a remote log host (Scored) #comment: needs to be checked for value of rsyslog_dest. This should be the target log server??
     lineinfile: >
       state=present
-      create=yes
-      dest=/etc/modprobe.d/CIS.conf
-      line="install dccp /bin/true"
+      dest=/etc/rsyslog.conf
+      regexp="^\*\.\*"
+      line="*.* @@{{ rsyslog_dest }}"
+    when: rsyslog_dest is defined
     tags:
-      - notscored
-      - section3.5
-      - section3.5.1
+      - scored
+      - section4.2
+      - section4.2.1
+      - section4.2.1.4
 
-  - name: 3.5.2 Ensure SCTP is disabled (Not Scored)
+  - name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
     lineinfile: >
       state=present
-      create=yes
-      dest=/etc/modprobe.d/CIS.conf
-      line="install sctp /bin/true"
+      line="$ModLoad imtcp.so"
+    when: rsyslog_host
     tags:
       - notscored
-      - section3.5
-      - section3.5.2
+      - section4.2
+      - section4.2.1
+      - section4.2.1.5
 
-  - name: 3.5.3 Ensure RDS is disabled (Not Scored)
+  - name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
     lineinfile: >
       state=present
-      create=yes
-      dest=/etc/modprobe.d/CIS.conf
-      line="install rds /bin/true"
+      line="$InputTCPServerRun 514"
+    when: rsyslog_host
     tags:
       - notscored
-      - section3.5
-      - section3.5.3
+      - section4.2
+      - section4.2.1
+      - section4.2.1.5
 
-  - name: 3.5.4 Ensure TIPC is disabled (Not Scored)
-    lineinfile: >
-      state=present
-      create=yes
-      dest=/etc/modprobe.d/CIS.conf
-      line="install tipc /bin/true"
-    tags:
-      - notscored
-      - section3.5
-      - section3.5.4
+#comment: Need to build out controls 4.2.2.1 through 4.2.4
 
-  - name: 3.6.1 Ensure iptables is installed (Scored)
+  - name: 4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
     yum: >
-      name=iptables
+      name=rsyslog
       state=present
     tags:
       - scored
-      - section3.6
-      - section3.6.1
+      - section4.2
+      - section4.2.3
 
-  - name: 3.6.1 Ensure iptables is running (Scored)
-    service: >
-      name=iptables
-      state=started
-      enabled=yes
+  - name: 4.3 Ensure logrotate is configured (Not Scored)
+    copy: >
+      src=etc/logrotate.d/syslog
+      dest=/etc/logrotate.d/syslog
     tags:
-      - scored
-      - section3.6
-      - section3.6.1
-
-  - name: 3.6.2 Ensure default deny firewall policy (Scored)
-    debug: msg="*** Configure manually as required. Evaluate for your environment first."
-    tags:
-      - scored
-      - section3.6
-      - section3.6.2
-
-  - name: 3.6.3 Ensure loopback traffic is configured (Scored)
-    service: >
-      name=iptables
-      state=started
-      enabled=yes
-    tags:
-      - scored
-      - section3.6
-      - section3.6.3
-
-  - name: 3.6.4 Ensure outbound and established connections are configured (Not Scored)
-    service: >
-      name=iptables
-      state=started
-      enabled=yes
-    tags:
-      - scored
-      - section3.6
-      - section3.6.4
-
-  - name: 3.6.5 Ensure firewall rules exist for all open ports (Scored)
-    debug: msg="*** Configure manually as required. Evaluate for your environment first."
-    tags:
-      - scored
-      - section3.6
-      - section3.6.5
-
-  - name: 3.6.6 Ensure firewall rules exist for all open ports (Scored)
-    debug: msg="*** Configure manually as required. Evaluate for your environment first."
-    tags:
-      - scored
-      - section3.6
-      - section3.6.6
-
-  - name: 3.7 Ensure wireless interfaces are disabled (Not Scored)
-    debug: msg="*** Configure manually as required. Evaluate for your environment first."
-    tags:
-      - scored
-      - section3.7
+      - notscored
+      - section4.3

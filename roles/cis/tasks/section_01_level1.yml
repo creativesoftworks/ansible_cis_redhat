@@ -14,13 +14,87 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
-  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
-    debug: msg="*** Manually create Separate Partition for /tmp."
+#   Section 1.1 Filesystem Configuration
+#
+  - name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install cramfs /bin/true"
     tags:
       - scored
       - section1.1
-      - section1.1.2
+      - section1.1.1.1
+
+  - name: 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install freevxfs /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.2
+
+  - name: 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install jffs2 /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.3
+
+  - name: 1.1.1.4 Ensure mounting of hfs filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install hfs /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.4
+
+  - name: 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install hfsplus /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.5
+
+  - name: 1.1.1.6 Ensure mounting of squashfs filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install squashfs /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.6
+
+  - name: 1.1.1.7 Ensure mounting of udf filesystems is disabled (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install udf /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.7
+
+- name: 1.1.1.8 Ensure mounting of FAT filesystems is disabled (Scored)
+  lineinfile: >
+      state=present
+      dest=/etc/modprobe.d/CIS.conf
+      line="install vfat /bin/true"
+    tags:
+      - scored
+      - section1.1
+      - section1.1.1.8
 
   - name: 1.1.3 - 1.1.5 Ensure nodev,nosuid,noexec option set for /tmp Partition (Scored)
     mount: >
@@ -38,20 +112,6 @@
       - section1.1.4
       - section1.1.5
 
-  - name: 1.1.6 Ensure separate partition exists for /var (Scored)
-    debug: msg="*** Manually create Separate Partition for /var."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.6
-
-  - name: 1.1.7 Ensure separate partition exists for /var/tmp (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/tmp."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.7
-
   - name: 1.1.8 - 1.1.10 Ensure nodev,nosuid,noexec option set for /var/tmp Partition (Scored)
     mount: >
       name="/var/tmp"
@@ -67,27 +127,6 @@
       - section1.1.8
       - section1.1.9
       - section1.1.10
-
-  - name: 1.1.11 Ensure separate partition exists for /var/log (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.11
-
-  - name: 1.1.12 Ensure separate partition exists for /var/log/audit (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log/audit."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.12
-
-  - name: 1.1.13 Ensure separate partition exists for /home (Scored)
-    debug: msg="*** Manually create Separate Partition for /home."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.13
 
   - name: 1.1.14 Ensure nodev option set on /home partition (Scored)
     mount: >
@@ -153,6 +192,8 @@
       - section1.1
       - section1.1.22
 
+#   Section 1.2 Configure Software Updates
+
   - name: 1.2.1 Ensure package manager repositories are configured (Not Scored)
     command: yum check-update
     register: result
@@ -190,12 +231,64 @@
       - section1.2
       - section1.2.4
 
-  - name: 1.2.6 Verify package integrity using RPM (Not Scored)
-    debug: msg="*** Check via cron/AIDE/manually"
+#   Section 1.3 Filesystem Integrity Checking
+
+  - name: 1.3.1 Ensure AIDE is installed (Scored)
+    yum: >
+      name=aide
+      state=present
+    when: configure_aide
     tags:
-      - notscored
-      - section1.2
-      - section1.2.6
+      - scored
+      - section1.3
+      - section1.3.1
+
+  - name: 1.3.1 Install AIDE (Initialize AIDE) (Scored)
+    command: >
+      /usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz' 
+      creates=/var/lib/aide/aide.db.gz
+    when: configure_aide
+    tags:
+      - scored
+      - section1.3
+      - section1.3.1
+
+  - name: 1.3.1 Install AIDE (check is prelink installed) (Scored)
+    stat: path=/usr/sbin/prelink
+    register: prelink_stat
+    tags:
+      - scored
+      - section1.3
+      - section1.3.1
+
+  - name: 1.3.1 Install AIDE (Disable Prelinking) (Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/sysconfig/prelink
+      regexp=^PRELINKING=
+      line=PRELINKING=no
+      create=yes
+    when:
+      - configure_aide
+      - prelink_stat.stat.exists
+    tags:
+      - scored
+      - section1.3
+      - section1.3.1
+
+  - name: 1.3.2 Ensure filesystem integrity is regularly checked (Scored)
+    cron: >
+      name="Run AIDE (CIS 1.3.2)"
+      minute="0"
+      hour="5"
+      job="/usr/sbin/aide --check"
+    when: configure_aide
+    tags:
+      - scored
+      - section1.3
+      - section1.3.2
+
+#   Section 1.5 Additional Process Hardening
 
   - name: 1.5.1 Get Absolute Path to grub.conf
     command: readlink -f /etc/grub.conf
@@ -235,6 +328,8 @@
       - scored 
       - section1.5
       - section1.5.2
+
+#   Section 1.4 Secure Boot Settings
 
   - name: 1.4.2 Ensure bootloader password is set (Scored)
     debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
@@ -281,16 +376,12 @@
       - section1.5
       - section1.5.1
 
-  - name: 1.6.2 Configure ExecShield (Scored)
-    sysctl: >
-      name=kernel.exec-shield
-      value=1
-      state=present
-      ignoreerrors=yes
+  - name: 1.5.2 Ensure XD/NX support is enabled (Not Scored)
+    debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
     tags:
       - scored
-      - section1.6
-      - section1.6.2
+      - section1.5
+      - section1.5.2
 
   - name: 1.5.3 Ensure address space layout randomization (ASLR) is enabled (Scored)
     sysctl: >
@@ -302,14 +393,24 @@
       - scored
       - section1.5
       - section1.5.3
-
-  - name: 1.7 Use the Latest OS Release (Not Scored)
-    command: >
-      cat /etc/redhat-release
-    when: ansible_distribution == "RedHat"
+      
+  - name: 1.5.4 Ensure prelink is disabled (Scored)
+    command: prelink -ua
     tags:
-      - notscored
-      - section1.7
+      - scored
+      - section1.5
+      - section1.5.4
+
+  - name: 1.5.4 Ensure prelink is disabled (Scored)
+    yum: >
+      name=prelink
+      state=absent
+    tags:
+      - scored
+      - section1.5
+      - section1.5.2
+
+# Section 1.7 Warning Banners
 
   - name: 1.7.1.1 Ensure message of the day is configured properly (Scored)
     
@@ -368,8 +469,100 @@
       - section1.7.2
 
   - name: 1.8 Ensure updates, patches, and additional security software are installed (Not Scored)
-    
-
+    debug: msg="Run yum update manually or during scheduled maintenance windows."
     tags:
       - scored
       - section1.8
+
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    stat: path=/etc/{{ item }}
+    register: stats
+    with_items:
+      - motd
+      - issue
+      - issue.net
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    file: >
+      name=/etc/motd 
+      state=absent
+    changed_when: false
+    with_items: 
+      - stats.results
+    when: item.islnk is defined
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    file: >
+      name=/etc/issue
+      state=absent
+    changed_when: false
+    with_items: 
+      - stats.results
+    when: item.islnk is defined
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    file: >
+      name=/etc/issue.net
+      state=absent
+    changed_when: false
+    with_items: 
+      - stats.results
+    when: item.islnk is defined
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    copy: >
+      src=etc/{{item}}
+      dest=/etc/{{item}}
+    with_items:
+      - motd
+      - issue
+      - issue.net
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
+    file: >
+      path=/etc/{{ item }}
+      owner=root
+      group=root
+      mode=0644
+    with_items:
+      - motd
+      - issue
+      - issue.net
+    tags:
+      - scored
+      - section8.1
+
+  - name: 8.2 Remove OS Information from Login Warning Banners (Scored)
+    replace: >
+      dest=/etc/{{ item }}
+      regexp='\\r|\\v|\\s' 
+      replace='[CIS replaced]'
+    with_items:
+      - motd
+      - issue
+      - issue.net 
+    tags:
+      - scored
+      - section8.2
+
+  - name: 8.3 Set GNOME Warning Banner (Not Scored)
+    debug: msg="*** Will do later"
+    tags:
+      - scored
+      - section8.3
