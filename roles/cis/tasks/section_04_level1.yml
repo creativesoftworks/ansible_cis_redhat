@@ -37,7 +37,7 @@
       - section4.2.1
       - section4.2.1.1
 
-  - name: 4.2.1.2 Ensure logging is configured (Not Scored) #comment: rsyslog.conf needs to be edited to match the updated CIS recommendations.
+  - name: 4.2.1.2 Ensure logging is configured (Not Scored) #comment: rsyslog.conf needs to be checked for accuracy
     copy: >
       src=etc/rsyslog.conf
       dest=/etc/rsyslog.conf
@@ -58,11 +58,19 @@
       group=wheel
       mode=0640
     with_items:
+        - mail
+        - mail.info
+        - mail.warn
+        - mail.err
+        - news.crit
+        - news.err
+        - news.notice
+        - warn
         - messages
         - kern.log
         - daemon.log
         - syslog
-        - unused.log
+        - localmessages
     tags:
       - scored
       - section4.2
@@ -104,7 +112,45 @@
       - section4.2.1
       - section4.2.1.5
 
-#comment: Need to build out controls 4.2.2.1 through 4.2.4
+  - name: 4.2.2.1 Ensure syslog-ng service is enabled (Scored)
+    debug: msg="This section only applies if syslog-ng is installed on the system."
+    tag:
+      - scored
+      - section4.2
+      - section4.2.2
+      - section4.2.2.1
+
+  - name: 4.2.2.2 Ensure logging is configured (Not Scored)
+    debug: msg="This section only applies if syslog-ng is installed on the system."
+    tag:
+      - notscored
+      - section4.2
+      - section4.2.2
+      - section4.2.2.2
+
+  - name: 4.2.2.3 Ensure syslog-ng default file permissions configured (Scored)
+    debug: msg="This section only applies if syslog-ng is installed on the system."
+    tag:
+      - scored
+      - section4.2
+      - section4.2.2
+      - section4.2.2.3
+
+  - name: 4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log host (Not Scored)
+    debug: msg="This section only applies if syslog-ng is installed on the system."
+    tag:
+      - notscored
+      - section4.2
+      - section4.2.2
+      - section4.2.2.4
+
+  - name: 4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)
+    debug: msg="This section only applies if syslog-ng is installed on the system."
+    tag:
+      - notscored
+      - section4.2
+      - section4.2.2
+      - section4.2.2.5
 
   - name: 4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
     yum: >
@@ -114,6 +160,13 @@
       - scored
       - section4.2
       - section4.2.3
+
+  - name: 4.2.4 Ensure permissions on all logfiles are configured (Scored)
+    command: find /var/log -type f -exec chmod g-wx,o-rwx {} +
+    tags:
+      - scored
+      - section4.2
+      - section4.2.4
 
   - name: 4.3 Ensure logrotate is configured (Not Scored)
     copy: >

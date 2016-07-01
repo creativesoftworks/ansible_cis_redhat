@@ -16,12 +16,28 @@
 #
 # Section 2.1 inetd Services
 #
+  - name: 2.1.1 Ensure chargen services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/chargen-dgram
+    register: chargen_dgram
+    tags:
+      - scored
+      - section2.1
+      - section2.1.1
+
   - name: 2.1.1 Ensure chargen services are not enabled (Disable service) (Scored)
     service: >
         name=chargen-dgram
         state=stopped
         enabled=no
     when: chargen_dgram.stat.exists
+    tags:
+      - scored
+      - section2.1
+      - section2.1.1
+
+  - name: 2.1.1 Ensure chargen services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/chargen-stream
+    register: chargen_stream
     tags:
       - scored
       - section2.1
@@ -38,7 +54,15 @@
       - section2.1
       - section2.1.1
 
-  - name: 2.1.2 Ensure daytime services are not enabled (Scored)
+  - name: 2.1.2 Ensure daytime services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/daytime-dgram
+    register: daytime_dgram
+    tags:
+      - scored
+      - section2.1
+      - section2.1.2
+
+  - name: 2.1.2 Ensure daytime services are not enabled (Disable service) (Scored)
     service: >
         name=daytime-dgram
         state=stopped
@@ -49,7 +73,15 @@
       - section2.1
       - section2.1.2
 
-  - name: 2.1.2 Ensure daytime services are not enabled (Scored)
+  - name: 2.1.2 Ensure daytime services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/daytime-stream
+    register: daytime_stream
+    tags:
+      - scored
+      - section2.1
+      - section2.1.2
+
+  - name: 2.1.2 Ensure daytime services are not enabled (Disable service) (Scored)
     service: >
         name=daytime-stream
         state=stopped
@@ -60,7 +92,15 @@
       - section2.1
       - section2.1.2
 
-  - name: 2.1.3 Ensure discard services are not enabled (Scored)
+  - name: 2.1.3 Ensure discard services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/discard-dgram
+    register: discard_dgram
+    tags:
+      - scored
+      - section2.1
+      - section2.1.3
+
+  - name: 2.1.3 Ensure discard services are not enabled (Disable service) (Scored)
     service: >
         name=discard-dgram
         state=stopped
@@ -71,7 +111,15 @@
       - section2.1
       - section2.1.3
 
-  - name: 2.1.3 Ensure discard services are not enabled (Scored)
+  - name: 2.1.3 Ensure discard services are not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/discard-stream
+    register: discard_stream
+    tags:
+      - scored
+      - section2.1
+      - section2.1.3
+
+  - name: 2.1.3 Ensure discard services are not enabled (Disable service) (Scored)
     service: >
         name=discard-stream
         state=stopped
@@ -160,7 +208,7 @@
 
   - name: 2.1.6 Ensure rsh server is not enabled (Scored) #need to update to add {{ item }}
     service: >
-      name=rsh
+      name={{ item }}
       state=stopped
       enabled=no
     withitem:
@@ -173,40 +221,36 @@
       - section2.1.6
 
   - name: 2.1.7 Ensure talk server is not enabled (Scored)
-    service: >
+    yum: >
       name=talk
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.1
       - section2.1.7
 
   - name: 2.1.8 Ensure telnet server is not enabled (Scored)
-    service: >
+    yum: >
       name=telnet
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.1
       - section2.1.8
 
   - name: 2.1.9 Ensure tftp server is not enabled (Scored)
-    service: >
+    yum: >
       name=tftp
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.1
       - section2.1.9
 
   - name: 2.1.10 Ensure rsync service is not enabled (Scored)
-    service: >
+    yum: >
       name=rsync
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.1
@@ -232,16 +276,6 @@
       - scored
       - section2.2
       - section2.2.1
-
-  - name: 2.2.1.2 Ensure ntp is configured (Scored)
-    yum: >
-      pkg=ntp
-      state=installed    
-    always_run: yes
-    tags:
-      - scored
-      - section2.2
-      - section2.2.1.2
       
   - name: 2.2.1.2 Ensure ntp is configured (Scored)
     service: >
@@ -268,8 +302,8 @@
     lineinfile: >
       dest=/etc/ntp.conf
       state=present
-      regexp="^restrict default"
-      line="restrict default kod nomodify notrap nopeer noquery"
+      regexp="^restrict -4 default"
+      line="restrict -4 default kod nomodify notrap nopeer noquery"
       insertafter=EOF
     tags:
       - scored
@@ -343,7 +377,7 @@
       - section2.2
       - section2.2.4
 
-  - name: 2.2.5 Ensure DHCP Server is not enabled (Scored) #do we need to check if these packages are installed before we attend to stop the service?
+  - name: 2.2.5 Ensure DHCP Server is not enabled (Scored)
     service: >
       name=dhcpd
       state=stopped
@@ -365,19 +399,12 @@
 
   - name: 2.2.7 Ensure NFS and RPC are not enabled (Scored)
     service: >
-      name=nfs
+      name={{ item }}
       state=stopped
       enabled=no
-    tags:
-      - scored
-      - section2.2
-      - section2.2.7
-
-  - name: 2.2.7 Ensure NFS and RPC are not enabled (Scored)
-    service: >
-      name=rpcbind
-      state=stopped
-      enabled=no
+    with_items:
+      - nfs
+      - rpcbind
     tags:
       - scored
       - section2.2

@@ -440,9 +440,29 @@
       - section5.4.1
       - section5.4.1.3
 
-  - name: 5.4.2 Ensure system accounts are non-login (Scored) #need to build out
+  - name: 5.4.2 Ensure system accounts are non-login (Scored) #need to verify accuracy. I think this script disables all system accounts
+    shell: awk -F':' '($3<500 && $1!="root" && $1!="sync" && $1!="shutdown" && $1!="sync" && $1!="shutdown" && $1!="halt" && $7!="/sbin/nologin") { print $1 }' /etc/passwd
+    register: enabled_system_accounts
+    changed_when: false
+    tags:
+      - scored
+      - section5.4
+      - section5.4.2
 
-  - name: 5.4.3 Ensure default group for the root account is GID 0 (Scored) #need to build out
+  - name: 5.4.2 Ensure system accounts are non-login (Scored)
+    command: /usr/sbin/usermod -s /sbin/nologin {{ item }}
+    with_items: enabled_system_accounts.stdout_lines
+    tags:
+      - scored
+      - section5.4
+      - section5.4.2
+
+  - name: 5.4.3 Ensure default group for the root account is GID 0 (Scored) #need to verify for accuracy
+    command: usermod -g 0 root
+    tags:
+      - scored
+      - section5.4
+      - section5.4.3
 
   - name: 5.4.4 Ensure default user umask is 027 or more restrictive (Scored)
     lineinfile: 

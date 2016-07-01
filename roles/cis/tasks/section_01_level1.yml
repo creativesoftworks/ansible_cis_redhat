@@ -413,56 +413,54 @@
 # Section 1.7 Warning Banners
 
   - name: 1.7.1.1 Ensure message of the day is configured properly (Scored)
-    
-
+    copy: >
+      src=etc/motd
+      dest=/etc/motd 
     tags:
       - scored
       - section1.7
       - section1.7.1.1
 
   - name: 1.7.1.2 Ensure local login warning banner is configured properly (Not Scored)
-    
-
+    copy: >
+      src=etc/issue
+      dest=/etc/issue  
     tags:
       - scored
       - section1.7
       - section1.7.1.2
 
   - name: 1.7.1.3 Ensure remote login warning banner is configured properly (Not Scored)
-    
-
+    copy: >
+      src=etc/issue.net
+      dest=/etc/issue.net
     tags:
       - scored
       - section1.7
       - section1.7.1.3
 
-  - name: 1.7.1.4 Ensure permissions on /etc/motd are configured (Not Scored)
-    
-
+  - name: 1.7.1.4 - 1.7.1.6 Ensure permissions on /etc/motd, /etc/issue and /etc/issue.net are configured (Not Scored)
+    file: >
+      path=/etc/{{ item }}
+      owner=root
+      group=root
+      mode=0644
+    with_items:
+      - motd
+      - issue
+      - issue.net    
     tags:
       - scored
       - section1.7
+      - section1,7.1
       - section1.7.1.4
-
-  - name: 1.7.1.5 Ensure permissions on /etc/issue are configured (Scored)
-    
-
-    tags:
-      - scored
-      - section1.7
       - section1.7.1.5
-
-  - name: 1.7.1.6 Ensure permissions on /etc/issue.net are configured (Not Scored)
-    
-
-    tags:
-      - scored
-      - section1.7
       - section1.7.1.6
 
   - name: 1.7.2 Ensure GDM login banner is configured (Scored)
-    
-
+    yum: >
+      name=gdm
+      state=absent
     tags:
       - scored
       - section1.7
@@ -473,96 +471,3 @@
     tags:
       - scored
       - section1.8
-
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    stat: path=/etc/{{ item }}
-    register: stats
-    with_items:
-      - motd
-      - issue
-      - issue.net
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    file: >
-      name=/etc/motd 
-      state=absent
-    changed_when: false
-    with_items: 
-      - stats.results
-    when: item.islnk is defined
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    file: >
-      name=/etc/issue
-      state=absent
-    changed_when: false
-    with_items: 
-      - stats.results
-    when: item.islnk is defined
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    file: >
-      name=/etc/issue.net
-      state=absent
-    changed_when: false
-    with_items: 
-      - stats.results
-    when: item.islnk is defined
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    copy: >
-      src=etc/{{item}}
-      dest=/etc/{{item}}
-    with_items:
-      - motd
-      - issue
-      - issue.net
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.1 Set Warning Banner for Standard Login Services (Scored)
-    file: >
-      path=/etc/{{ item }}
-      owner=root
-      group=root
-      mode=0644
-    with_items:
-      - motd
-      - issue
-      - issue.net
-    tags:
-      - scored
-      - section8.1
-
-  - name: 8.2 Remove OS Information from Login Warning Banners (Scored)
-    replace: >
-      dest=/etc/{{ item }}
-      regexp='\\r|\\v|\\s' 
-      replace='[CIS replaced]'
-    with_items:
-      - motd
-      - issue
-      - issue.net 
-    tags:
-      - scored
-      - section8.2
-
-  - name: 8.3 Set GNOME Warning Banner (Not Scored)
-    debug: msg="*** Will do later"
-    tags:
-      - scored
-      - section8.3

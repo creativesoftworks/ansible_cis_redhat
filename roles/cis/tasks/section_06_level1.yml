@@ -255,8 +255,18 @@
       - section6.2.12
 
   - name: 6.2.13 Ensure users' .netrc Files are not group or world accessible (Scored) #need to build out
+    debug: msg="*** To do later"
+    tags:
+      - scored
+      - section6.2
+      - section6.2.13
 
   - name: 6.2.14 Ensure no users have .rhosts files (Scored) #need to build out
+    debug: msg="*** To do later"
+    tags:
+      - scored
+      - section6.2
+      - section6.2.13
 
   - name: 6.2.15 Ensure all groups in /etc/passwd exist in /etc/group (Scored) #need to build out
     debug: msg="*** To do later"
