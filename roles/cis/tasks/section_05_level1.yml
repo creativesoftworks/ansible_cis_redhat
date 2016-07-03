@@ -457,8 +457,10 @@
       - section5.4
       - section5.4.2
 
-  - name: 5.4.3 Ensure default group for the root account is GID 0 (Scored) #need to verify for accuracy
-    command: usermod -g 0 root
+  - name: 5.4.3 Ensure default group for the root account is GID 0 (Scored)
+    user: >
+      name=root
+      group=root
     tags:
       - scored
       - section5.4

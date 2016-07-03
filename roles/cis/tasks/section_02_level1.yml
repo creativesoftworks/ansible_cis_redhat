@@ -206,15 +206,58 @@
       - section2.1
       - section2.1.5
 
-  - name: 2.1.6 Ensure rsh server is not enabled (Scored) #need to update to add {{ item }}
+  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/rsh
+    register: rsh
+    tags:
+      - scored
+      - section2.1
+      - section2.1.6
+
+  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
     service: >
-      name={{ item }}
+      name=rsh
       state=stopped
       enabled=no
-    with_items:
-      - rexec
-      - rlogin
-      - rsh
+    when: rsh.stat.exists
+    tags:
+      - scored
+      - section2.1
+      - section2.1.6
+
+  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/rexec
+    register: rexec
+    tags:
+      - scored
+      - section2.1
+      - section2.1.6
+
+  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
+    service: >
+      name=rexec
+      state=stopped
+      enabled=no
+    when: rexec.stat.exists
+    tags:
+      - scored
+      - section2.1
+      - section2.1.6
+
+  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+    stat: path=/etc/xinetd.d/rlogin
+    register: rlogin
+    tags:
+      - scored
+      - section2.1
+      - section2.1.6
+
+  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
+    service: >
+      name=rlogin
+      state=stopped
+      enabled=no
+    when: rlogin.stat.exists
     tags:
       - scored
       - section2.1
@@ -257,10 +300,9 @@
       - section2.1.10
 
   - name: 2.1.11 Ensure xinetd is not enabled (Scored)
-    service: >
+    yum: >
       name=xinetd
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.1
@@ -377,104 +419,203 @@
       - section2.2
       - section2.2.4
 
-  - name: 2.2.5 Ensure DHCP Server is not enabled (Scored)
-    service: >
-      name=dhcpd
-      state=stopped
-      enabled=no
+  - name: 2.2.5 Ensure DHCP Server is not enabled (check if installed) (Scored)
+    stat: path=/etc/dhcp.conf
+    register: dhcp
     tags:
       - scored
       - section2.2
       - section2.2.5
+
+  - name: 2.2.5 Ensure DHCP Server is not enabled (disable service) (Scored)
+    service: >
+      name=dhcpd
+      state=stopped
+      enabled=no
+    when: dhcp.stat.exists
+    tags:
+      - scored
+      - section2.2
+      - section2.2.5
+
+  - name: 2.2.6 Ensure LDAP server is not enabled (check if installed) (Scored)
+    stat: path=/etc/slapd.conf
+    register: slapd
+    tags:
+      - scored
+      - section2.2
+      - section2.2.6
 
   - name: 2.2.6 Ensure LDAP server is not enabled (Scored)
     service: >
       name=slapd
       state=stopped
       enabled=no
+    when: slapd.stat.exists
     tags:
       - scored
       - section2.2
       - section2.2.6
 
-  - name: 2.2.7 Ensure NFS and RPC are not enabled (Scored)
-    service: >
-      name={{ item }}
-      state=stopped
-      enabled=no
-    with_items:
-      - nfs
-      - rpcbind
+  - name: 2.2.7 Ensure NFS and RPC are not enabled (check for nfs-utils) (Scored)
+    stat: path=/etc/init.d/nfslock
+    register: nfs_utils
     tags:
       - scored
       - section2.2
       - section2.2.7
+
+  - name: 2.2.7 Ensure NFS and RPC are not enabled (check for rpcbind) (Scored)
+    stat: path=/etc/init.d/rpcbind
+    register: rpcbind
+    tags:
+      - scored
+      - section2.2
+      - section2.2.7
+
+  - name: 2.2.7 Ensure NFS and RPC are not enabled (Scored)
+    service: >
+      name=nfs
+      state=stopped
+      enabled=no
+    when: nfs_utils.stat.exists
+    tags:
+      - scored
+      - section2.2
+      - section2.2.7
+
+  - name: 2.2.7 Ensure NFS and RPC are not enabled (rpcbind services) (Scored)
+    service: >
+      name=rpcbind
+      state=stopped
+      enabled=no
+    when: rpcbind.stat.exists
+    tags:
+      - scored
+      - section2.2
+      - section2.2.7
+
+  - name: 2.2.8 Ensure DNS Server is not enabled (check for named.conf) (Scored)
+    stat: path=/etc/bind/named.conf
+    register: named
+    tags:
+      - scored
+      - section2.2
+      - section2.2.8
 
   - name: 2.2.8 Ensure DNS Server is not enabled (Scored)
     service: >
       name=named
       state=stopped
       enabled=no
+    when: named.stat.exists
     tags:
       - scored
       - section2.2
       - section2.2.8
+
+  - name: 2.2.9 Ensure FTP Server is not enabled (check for named.conf) (Scored)
+    stat: path=/etc/vsftpd/vsftpd.conf
+    register: vsftpd
+    tags:
+      - scored
+      - section2.2
+      - section2.2.9
 
   - name: 2.2.9 Ensure FTP Server is not enabled (Scored)
     service: >
       name=vsftpd
       state=stopped
       enabled=no
+    when: vsftpd.stat.exists
     tags:
       - scored
       - section2.2
       - section2.2.9
+
+  - name: 2.2.10 Ensure HTTP server is not enabled (check for httpd) (Scored)
+    stat: path=/etc/httpd/conf/httpd.conf
+    register: httpd
+    tags:
+      - scored
+      - section2.2
+      - section2.2.10
 
   - name: 2.2.10 Ensure HTTP server is not enabled (Scored)
     service: >
       name=httpd
       state=stopped
       enabled=no
+    when: httpd.stat.exists
     tags:
       - scored
       - section2.2
       - section2.2.10
+
+  - name: 2.2.11 Ensure IMAP and POP3 server is not enabled (check for dovecot) (Scored)
+    stat: path=/etc/dovecot/dovecot.conf
+    register: dovecot
+    tags:
+      - scored
+      - section2.2
+      - section2.2.11
 
   - name: 2.2.11 Ensure IMAP and POP3 server is not enabled (Scored)
     service: >
       name=dovecot
       state=stopped
       enabled=no
+    when: dovecot.stat.exists
     tags:
       - scored
       - section2.2
       - section2.2.11
 
+  - name: 2.2.11 Ensure IMAP and POP3 server is not enabled (ensure other imap packages are not installed) (Scored)
+    yum: >
+      name={{ item }}
+      state=absent
+    with_items:
+      - cyrus-imapd
+      - cyrus-imapd-devel
+      - cyrus-imapd-utils
+      - imapfilter
+      - imapsync
+      - offlineimap
+      - php-imap
+      - up-imapproxy
+      - uw-imap
+      - uw-imap-utils
+
   - name: 2.2.12 Ensure Samba is not enabled (Scored)
-    service: >
-      name=smb
-      state=stopped
-      enabled=no
+    yum: >
+      name={{ item }}
+      state=absent
+    with_items:
+      - samba
+      - samba-client
+      - samba-common
     tags:
       - scored
       - section2.2
       - section2.2.12
 
   - name: 2.2.13 Ensure HTTP Proxy Server is not enabled (Scored)
-    service: >
+    yum: >
       name=squid
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.2
       - section2.2.13
 
   - name: 2.2.14 Ensure SNMP Server is not enabled (Scored)
-    service: >
-      name=snmpd
-      state=stopped
-      enabled=no
+    yum: >
+      name={{ item }}
+      state=absent
+    with_items:
+      - net-snmp
+      - net-snmp-utils
     tags:
       - scored
       - section2.2
@@ -495,10 +636,9 @@
       - section2.2.14
 
   - name: 2.2.16 Ensure NIS Server is not enabled (Scored)
-    service: >
+    yum: >
       name=ypserv
-      state=stopped
-      enabled=no
+      state=absent
     tags:
       - scored
       - section2.2

@@ -141,7 +141,7 @@
 
   - name: 6.2.1 Ensure password fields are not empty (Scored)
     shell: /bin/cat /etc/shadow | /bin/awk -F':' '($2 == "" ) { print $1 " does not have a password "}'
-    register: result9_2_1
+    register: result6_2_1
     changed_when: "result6_2_1.stdout"
     always_run: yes
     tags:

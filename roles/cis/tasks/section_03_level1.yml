@@ -422,21 +422,33 @@
       - section3.6.2
 
   - name: 3.6.3 Ensure loopback traffic is configured (Scored)
-    command: iptables -A INPUT -i lo -j ACCEPT
+    lineinfile: > 
+      state=present
+      dest=/etc/sysconfig/iptables
+      insertafter=EOF
+      line="-A INPUT -i lo -j ACCEPT"
     tags:
       - scored
       - section3.6
       - section3.6.3
 
   - name: 3.6.3 Ensure loopback traffic is configured (Scored)
-    command: iptables -A OUTPUT -o lo -j ACCEPT
+    lineinfile: > 
+      state=present
+      dest=/etc/sysconfig/iptables
+      insertafter=EOF
+      line="-A OUTPUT -o lo -j ACCEPT"
     tags:
       - scored
       - section3.6
       - section3.6.3
 
   - name: 3.6.3 Ensure loopback traffic is configured (Scored)
-    command: iptables -A INPUT -s 127.0.0.0/8 -j DROP
+    lineinfile: > 
+      state=present
+      dest=/etc/sysconfig/iptables
+      insertafter=EOF
+      line="-A INPUT -s 127.0.0.0/8 -j DROP"
     tags:
       - scored
       - section3.6

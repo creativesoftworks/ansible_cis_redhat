@@ -287,47 +287,6 @@
       - section1.3
       - section1.3.2
 
-#   Section 1.5 Additional Process Hardening
-
-  - name: 1.5.1 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
-    register: readlink
-    changed_when: false
-    always_run: yes
-    tags:
-      - scored
-      - section1.5
-      - section1.5.1
-
-  - name: 1.5.1 Set User/Group Owner on /etc/grub.conf (Scored)
-    file: >
-      path={{ readlink.stdout }}
-      owner=root
-      group=root
-    tags:
-      - scored
-      - section1.5
-      - section1.5.1
-
-  - name: 1.5.2 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
-    register: readlink
-    changed_when: false
-    always_run: yes
-    tags:
-      - scored
-      - section1.5
-      - section1.5.2
-
-  - name: 1.5.2 Set Permissions on /etc/grub.conf (Scored)
-    file: >
-      path={{ readlink.stdout }}
-      mode=0400
-    tags:
-      - scored 
-      - section1.5
-      - section1.5.2
-
 #   Section 1.4 Secure Boot Settings
 
   - name: 1.4.2 Ensure bootloader password is set (Scored)
@@ -353,6 +312,8 @@
       - scored
       - section1.4
       - section1.4.4
+
+#   Section 1.5 Additional Process Hardening
 
   - name: 1.5.1 Ensure core dumps are restricted (Scored)
     lineinfile: >
@@ -394,7 +355,8 @@
       - section1.5.3
       
   - name: 1.5.4 Ensure prelink is disabled (Scored)
-    command: prelink -ua
+    stat: path=/etc/prelink.conf
+    register: prelink
     tags:
       - scored
       - section1.5
@@ -404,6 +366,7 @@
     yum: >
       name=prelink
       state=absent
+    when: prelink.stat.exists
     tags:
       - scored
       - section1.5
