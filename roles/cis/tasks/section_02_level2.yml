@@ -15,12 +15,4 @@
 #   limitations under the License.
 #
 
-  - name: 2.1.11 Remove xinetd (Scored)
-    yum: >
-      name=xinetd
-      state=absent
-    tags:
-      - scored
-      - section2.1
-      - section2.1.11
-      
+#   Section 2 has no level 2 services

@@ -14,257 +14,462 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
-  - name: 3.1 Set Daemon umask (Scored)
-    lineinfile: >
-      dest=/etc/sysconfig/init
+#   Section 3.1 Network Parameters
+#
+  - name: 3.1.1 Ensure IP forwarding is disabled (Scored)
+    sysctl: >
+      name=net.ipv4.ip_forward
+      value=0
       state=present
-      regexp=^umask
-      line="umask 027"
     tags:
       - scored
       - section3.1
+      - section3.1.1
 
-  - name: 3.2 Remove X Windows (runlevel 3) (Scored)
-    lineinfile: >
-      dest=/etc/inittab
+  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.send_redirects
+      value=0
       state=present
-      regexp="^id:"
-      line="id:3:initdefault:"
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.1
+      - section3.1.2
+
+  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.send_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.1
+      - section3.1.2
+
+#   Section 3.2 Network Parameters (Host and Router)
+
+  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.accept_source_route
+      value=0
+      state=present
+      ignoreerrors=true
     tags:
       - scored
       - section3.2
+      - section3.2.1
 
-  - name: 3.2 Remove X Windows (remove package group) (Scored)
-    yum: >
-      name=xorg-x11-server-common
-      state=absent
+  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.accept_source_route
+      value=0
+      state=present
+      ignoreerrors=true
     tags:
       - scored
       - section3.2
+      - section3.2.1
 
-  - name: 3.3 Disable Avahi Server (check if installed) (Scored)
-    stat: path=/etc/init.d/avahi-daemon
-    register: avahi_service
+  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.accept_redirects
+      value=0
+      state=present
+      ignoreerrors=true
     tags:
       - scored
-      - section3.3
+      - section3.2
+      - section3.2.2
 
-  - name: 3.3 Disable Avahi Server (disable service) (Scored)
-    service: >
-      name=avahi-daemon
-      state=stopped
-      enabled=no
-    when: avahi_service.stat.exists
+  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.accept_redirects
+      value=0
+      state=present
+      ignoreerrors=true
     tags:
       - scored
-      - section3.3
+      - section3.2
+      - section3.2.2
 
-  - name: 3.4 Check to see if cups daemon is installed (Not Scored)
-    stat: path=/etc/init.d/cups
-    register: cups_service
+  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.secure_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.3
+
+  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.secure_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.3
+
+  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.log_martians
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.4
+
+  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.log_martians
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.4
+
+  - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
+    sysctl: >
+      name=net.ipv4.icmp_echo_ignore_broadcasts
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.5
+
+  - name: 3.2.6 Ensure bogus ICMP responses are ignored (Scored)
+    sysctl: >
+      name=net.ipv4.icmp_ignore_bogus_error_responses
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.6
+
+  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.all.rp_filter
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.7
+
+  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
+    sysctl: >
+      name=net.ipv4.conf.default.rp_filter
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.7
+
+  - name: 3.2.8 Ensure TCP SYN Cookies is enabled (Scored)
+    sysctl: >
+      name=net.ipv4.tcp_syncookies
+      value=1
+      state=present
+      ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.8
+
+#   Section 3.3 IPv6
+
+  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
+    sysctl: >
+      name=net.ipv6.conf.all.accept_ra
+      value=0
+      state=present
+      ignoreerrors=true
     tags:
       - notscored
-      - section3.4
+      - section3.3
+      - section3.3.1
 
-  - name: 3.4 Disable Print Server - CUPS (Not Scored)
+  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
+    sysctl: >
+      name=net.ipv6.conf.default.accept_ra
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.1
+
+  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv6.conf.all.accept_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.2
+
+  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
+    sysctl: >
+      name=net.ipv6.conf.default.accept_redirects
+      value=0
+      state=present
+      ignoreerrors=true
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.2
+
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/sysconfig/network
+      regexp=^NETWORKING_IPV6
+      line=NETWORKING_IPV6=no
+    when: disable_ipv6
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.3
+
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      dest=/etc/sysconfig/network
+      regexp=^IPV6INIT
+      line=IPV6INIT=no
+    when: disable_ipv6
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.3
+
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/modprobe.d/ipv6.conf
+      line="options ipv6 disable=1"
+    when: disable_ipv6
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.3
+
+  - name: 3.3.3 Ensure IPv6 is disabled (Not Scored)
     service: >
-      name=cups
-      state=stopped
+      name=ip6tables
       enabled=no
+      state=stopped
+    when: disable_ipv6
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.3
+
+  - name: 3.3.3 Ensure IPv6 is disabled (flush routes) (Not Scored)
+    command: /sbin/sysctl -w net.ipv6.route.flush=1
     ignore_errors: yes
-    when: cups_service.stat.exists
+    when: disable_ipv6
+    tags:
+      - notscored
+      - section3.3
+      - section3.3.3
+
+#   Section 3.4 TCP Wrappers
+
+  - name: 3.4.1 Ensure TCP Wrappers is installed (Scored)
+    yum: >
+      name=tcp_wrappers
+      state=present
+    tags:
+      - scored
+      - section3.4
+      - section3.4.1
+
+  - name: 3.4.2 Ensure /etc/hosts.allow is configured (Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/hosts.allow
+      regexp=^ALL
+      line=ALL:{{ tcp_allow | default("ALL") }}
     tags:
       - notscored
       - section3.4
+      - section3.4.2
 
-  - name: 3.5 Remove DHCP Server (Scored)
-    yum: >
-      name=dhcp
-      state=absent
+  - name: 3.4.3 Ensure /etc/hosts.deny is configured (Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/hosts.deny
+      line=ALL:ALL
     tags:
       - scored
-      - section3.5
+      - section3.4
+      - section3.4.3
 
-  - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
+  - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured (Scored)
+    file: >
+      path=/etc/hosts.allow
+      mode=0644
+    tags:
+      - scored
+      - section3.4
+      - section3.4.4
+
+  - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured (Scored)
+    file: >
+      path=/etc/hosts.deny
+      mode=0644
+    tags:
+      - scored
+      - section3.4
+      - section3.4.5
+
+#   Section 3.5 Uncommon Network Protocols
+
+  - name: 3.5.1 Ensure DCCP is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/modprobe.d/CIS.conf
+      line="install dccp /bin/true"
+    tags:
+      - notscored
+      - section3.5
+      - section3.5.1
+
+  - name: 3.5.2 Ensure SCTP is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/modprobe.d/CIS.conf
+      line="install sctp /bin/true"
+    tags:
+      - notscored
+      - section3.5
+      - section3.5.2
+
+  - name: 3.5.3 Ensure RDS is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/modprobe.d/CIS.conf
+      line="install rds /bin/true"
+    tags:
+      - notscored
+      - section3.5
+      - section3.5.3
+
+  - name: 3.5.4 Ensure TIPC is disabled (Not Scored)
+    lineinfile: >
+      state=present
+      create=yes
+      dest=/etc/modprobe.d/CIS.conf
+      line="install tipc /bin/true"
+    tags:
+      - notscored
+      - section3.5
+      - section3.5.4
+
+#   Section 3.6 Firewall Configuration
+
+  - name: 3.6.1 Ensure iptables is installed (Scored)
     yum: >
-      pkg=ntp
-      state=installed    
-    always_run: yes
+      name=iptables
+      state=present
     tags:
       - scored
       - section3.6
+      - section3.6.1
 
-  - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
+  - name: 3.6.1 Ensure iptables is running (Scored)
     service: >
-      name=ntpd
+      name=iptables
       state=started
       enabled=yes
     tags:
       - scored
       - section3.6
+      - section3.6.1
 
-  - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
-    lineinfile: >
-      dest=/etc/ntp.conf
-      state=present
-      regexp="^restrict default"
-      line="restrict default kod nomodify notrap nopeer noquery"
-      insertafter=EOF
+  - name: 3.6.2 Ensure default deny firewall policy (Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
     tags:
       - scored
       - section3.6
+      - section3.6.2
 
-  - name: 3.6 Configure Network Time Protocol (ipv6) (Scored)
-    lineinfile: >
-      dest=/etc/ntp.conf
+  - name: 3.6.3 Ensure loopback traffic is configured (Scored)
+    lineinfile: > 
       state=present
-      regexp="^restrict -6 default"
-      line="restrict -6 default kod nomodify notrap nopeer noquery"
+      dest=/etc/sysconfig/iptables
       insertafter=EOF
+      line="-A INPUT -i lo -j ACCEPT"
     tags:
       - scored
       - section3.6
+      - section3.6.3
 
-  - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
-      name=openldap-clients
-      state=absent
-    when: ldap_client
-    tags:
-      - notscored
-      - section3.7
-
-  - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
-      name=openldap-servers
-      state=absent
-    when: ldap_server
-    tags:
-      - notscored
-      - section3.7
-
-  - name: 3.8 Disable NFS and RPC (check for nfs-utils) (Not Scored)
-    stat: path=/etc/init.d/nfslock
-    register: nfs_utils
-    tags:
-      - notscored
-      - section3.8
-
-  - name: 3.8 Disable NFS and RPC (check for rpcbind) (Not Scored)
-    stat: path=/etc/init.d/rpcbind
-    register: rpcbind
-    tags:
-      - notscored
-      - section3.8
-
-  - name: 3.8 Disable NFS and RPC (nfs-utils services) (Not Scored)
-    service: >
-      name={{ item }}
-      state=stopped
-      enabled=no
-    with_items:
-      - nfslock
-      - rpcgssd
-      - rpcidmapd
-      - rpcsvcgssd
-    when: nfs_utils.stat.exists
-    tags:
-      - notscored
-      - section3.8
-
-  - name: 3.8 Disable NFS and RPC (rpcbind services) (Not Scored)
-    service: >
-      name=rpcbind
-      state=stopped
-      enabled=no
-    when:
-      - rpcbind.stat.exists
-      - nfs
-    tags:
-      - notscored
-      - section3.8
-
-  - name: 3.9 Remove DNS Server (Not Scored)
-    yum: >
-      name=bind
-      state=absent
-    when: dns
-    tags:
-      - notscored
-      - section3.9
-
-  - name: 3.10 Remove FTP Server (Not Scored)
-    yum: >
-      name=vsftpd
-      state=absent
-    when: ftp
-    tags:
-      - notscored
-      - section3.10
-
-  - name: 3.11 Remove HTTP Server (Not Scored)
-    yum: >
-      name=httpd
-      state=absent
-    when: httpd
-    tags:
-      - notscored
-      - section3.11
-
-  - name: 3.12 Remove Dovecot (IMAP and POP3 services) (Not Scored)
-    yum: >
-      name=dovecot
-      state=absent
-    when: dovecot
-    tags:
-      - notscored
-      - section3.12
-
-  - name: 3.13 Remove Samba (Not Scored)
-    yum: >
-      name=samba
-      state=absent
-    when: samba
-    tags:
-      - notscored
-      - section3.13
-
-  - name: 3.14 Remove HTTP Proxy Server (Not Scored)
-    yum: >
-      name=squid
-      state=absent
-    when: squid
-    tags:
-      - notscored
-      - section3.14
-
-  - name: 3.15 Remove SNMP Server (Not Scored)
-    yum: >
-      name=net-snmp
-      state=absent
-    when: snmp
-    tags:
-      - notscored
-      - section3.15
-
-  - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
-    yum: >
-      name=postfix
+  - name: 3.6.3 Ensure loopback traffic is configured (Scored)
+    lineinfile: > 
       state=present
+      dest=/etc/sysconfig/iptables
+      insertafter=EOF
+      line="-A OUTPUT -o lo -j ACCEPT"
     tags:
       - scored
-      - section3.16
+      - section3.6
+      - section3.6.3
 
-  - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
-    lineinfile: >
-      backup=yes 
-      state=present 
-      dest=/etc/postfix/main.cf
-      backrefs=yes
-      regexp="^inet_interfaces"
-      line="inet_interfaces = localhost"
-    ignore_errors: yes
+  - name: 3.6.3 Ensure loopback traffic is configured (Scored)
+    lineinfile: > 
+      state=present
+      dest=/etc/sysconfig/iptables
+      insertafter=EOF
+      line="-A INPUT -s 127.0.0.0/8 -j DROP"
     tags:
       - scored
-      - section3.16
+      - section3.6
+      - section3.6.3
+
+  - name: 3.6.4 Ensure outbound and established connections are configured (Not Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.6
+      - section3.6.4
+
+  - name: 3.6.5 Ensure firewall rules exist for all open ports (Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.6
+      - section3.6.5
+
+  - name: 3.7 Ensure wireless interfaces are disabled (Not Scored)
+    debug: msg="*** Configure manually as required. Evaluate for your environment first."
+    tags:
+      - scored
+      - section3.7

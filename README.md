@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/major/cis-rhel-ansible.svg?branch=master)](https://travis-ci.org/major/cis-rhel-ansible)
 
-This is an ansible playbook for automatically applying CIS Security Benchmarks to a system running Red Hat Enterprise Linux 6 or CentOS 6.
+This is an ansible playbook for automatically applying CIS Security Benchmarks to a system running Red Hat Enterprise Linux 6 or CentOS 6. This is based on CIS Benchmark version 2.0.1.
 
 _RHEL 7 and CentOS 7 bencharks are coming soon._
 

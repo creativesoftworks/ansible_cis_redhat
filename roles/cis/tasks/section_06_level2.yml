@@ -15,4 +15,9 @@
 #   limitations under the License.
 #
 
-# CIS Section 6 has no Level 2 checks
+  - name: 6.1.1 Audit system file permissions (Not Scored)
+    debug: msg="Check via cron/manually/AIDE."
+    tags:
+      - notscored
+      - section6.1
+      - section6.1.1

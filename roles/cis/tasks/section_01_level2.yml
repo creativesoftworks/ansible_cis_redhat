@@ -14,6 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+#   This section addresses configuration settings that should be addressed
+#   during initial setup of the operating system.
+#
+#   Section 1.1 Filesystem Configuration
 
   - name: Create /etc/modprobe.d/CIS.conf with root ownership & mode
     file: path=/etc/modprobe.d/CIS.conf state=touch owner=root group=root mode=0600
@@ -29,208 +33,122 @@
       - section1.1.23
       - section1.1.24
 
-  - name: 1.1.18 Disable Mounting of cramfs Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install cramfs /bin/true"
+  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+    debug: msg="*** Manually create Separate Partition for /tmp."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.18
+      - section1.1.2
 
-  - name: 1.1.19 Disable Mounting of freevxfs Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install freevxfs /bin/true"
+  - name: 1.1.6 Ensure separate partition exists for /var (Scored)
+    debug: msg="*** Manually create Separate Partition for /var."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.19
+      - section1.1.6
 
-  - name: 1.1.20 Disable Mounting of jffs2 Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install jffs2 /bin/true"
+  - name: 1.1.7 Ensure separate partition exists for /var/tmp (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/tmp."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.20
+      - section1.1.7
 
-  - name: 1.1.21 Disable Mounting of hfs Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install hfs /bin/true"
+  - name: 1.1.11 Ensure separate partition exists for /var/log (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/log."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.21
+      - section1.1.11
 
-  - name: 1.1.22 Disable Mounting of hfsplus Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install hfsplus /bin/true"
+  - name: 1.1.12 Ensure separate partition exists for /var/log/audit (Scored)
+    debug: msg="*** Manually create Separate Partition for /var/log/audit."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.22
+      - section1.1.12
 
-  - name: 1.1.23 Disable Mounting of squashfs Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install squashfs /bin/true"
+  - name: 1.1.13 Ensure separate partition exists for /home (Scored)
+    debug: msg="*** Manually create Separate Partition for /home."
     tags:
-      - notscored
+      - scored
       - section1.1
-      - section1.1.23
+      - section1.1.13
 
-  - name: 1.1.24 Disable Mounting of udf Filesystems (Not Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/modprobe.d/CIS.conf
-      line="install udf /bin/true"
-    tags:
-      - notscored
-      - section1.1
-      - section1.1.24
+# Section 1.2 Configure Software Updates
 
-  - name: 1.2.4 Check to see if rhnsd daemon is installed (Not Scored)
-    stat: path=/etc/init.d/rhnsd
-    register: rhnsd_service
-    when: ansible_distribution == "RedHat"
-    tags:
-      - notscored
-      - section1.2
-      - section1.2.4
-
-  - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
+  - name: 1.2.5 Disable the rhnsd Daemon (Not Scored)
     action: command /sbin/chkconfig rhnsd off
     when: ansible_distribution == "RedHat"
     tags:
       - notscored
       - section1.2
-      - section1.2.4
+      - section1.2.5
 
-  - name: 1.3.1 Install AIDE (Scored)
-    yum: >
-      name=aide
-      state=present
-    when: configure_aide
-    tags:
-      - scored
-      - section1.3
-      - section1.3.1
+#   Section 1.6 Mandatory Access Control
 
-  - name: 1.3.1 Install AIDE (Initialize AIDE) (Scored)
-    command: >
-      /usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz' 
-      creates=/var/lib/aide/aide.db.gz
-    when: configure_aide
-    tags:
-      - scored
-      - section1.3
-      - section1.3.1
-
-  - name: 1.3.1 Install AIDE (check is prelink installed) (Scored)
-    stat: path=/usr/sbin/prelink
-    register: prelink_stat
-    tags:
-      - scored
-      - section1.3
-      - section1.3.1
-
-  - name: 1.3.1 Install AIDE (Disable Prelinking) (Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/sysconfig/prelink
-      regexp=^PRELINKING=
-      line=PRELINKING=no
-      create=yes
-    when:
-      - configure_aide
-      - prelink_stat.stat.exists
-    tags:
-      - scored
-      - section1.3
-      - section1.3.1
-
-  - name: 1.3.2 Implement Periodic Execution of File Integrity (Scored)
-    cron: >
-      name="Run AIDE (CIS 1.3.2)"
-      minute="0"
-      hour="5"
-      job="/usr/sbin/aide --check"
-    when: configure_aide
-    tags:
-      - scored
-      - section1.3
-      - section1.3.2
-
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
+  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
     lineinfile: >
       state=absent
       dest=/etc/grub.conf
       line="selinux=0"
     tags:
       - scored
-      - section1.4
-      - section1.4.1
+      - section1.6
+      - section1.6.1.1
 
-  - name: 1.4.1 Enable SELinux in /etc/grub.conf (Scored)
+  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
     lineinfile: >
       state=absent
       dest=/etc/grub.conf
       line="enforcing=0"
     tags:
       - scored
-      - section1.4
-      - section1.4.1
+      - section1.6
+      - section1.6.1.1
 
-  - name: 1.4.2 Set the SELinux State (Scored)
-    yum: >
-      name=selinux-policy-targeted
-      state=present
-    tags:
-      - scored
-      - section1.4
-      - section1.4.2
-
-  - name: 1.4.3 Set the SELinux Policy (Scored)
+  - name: 1.6.1.2 to 1.6.1.3 Ensure SELinux state and policy are configured (Scored)
     selinux: >
       state=enforcing
       policy=targeted
     ignore_errors: yes
     tags:
       - scored
-      - section1.4
-      - section1.4.3
+      - section1.6
+      - section1.6.1
+      - section1.6.1.2
+      - section1.6.1.3
 
-  - name: 1.4.4 Remove SETroubleshoot (Scored)
+  - name: 1.6.1.4 Ensure SETroubleshoot is not installed (Scored)
     yum: >
       name=setroubleshoot
       state=absent
     tags:
       - scored
-      - section1.4
-      - section1.4.4
+      - section1.6
+      - section1.6.1.4
 
-  - name: 1.4.5 Remove MCS Translation Service (mcstrans) (Scored)
+  - name: 1.6.1.5 Ensure the MCS Translation Service (mcstrans) is not installed (Scored)
     yum: >
       name=mcstrans
       state=absent
     tags:
       - scored
-      - section1.4
-      - section1.4.5
+      - section1.6
+      - section1.6.1.5
 
-  - name: 1.4.6 Check for unconfined daemons (Scored)
+  - name: 1.6.1.6 Ensure no unconfined daemons exist (Scored)
     debug: msg="*** Check via cron jobs or manually."
     tags:
       - scored
-      - section1.4
-      - section1.4.6
+      - section1.6
+      - section1.6.1.6
+
+  - name: 1.6.2 Ensure SELinux is installed (Scored)
+    yum: >
+      name=libselinux
+      state=present
+    tags:
+      - scored
+      - section1.6
+      - section1.6.2
