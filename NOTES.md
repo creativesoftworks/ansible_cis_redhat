@@ -1,6 +1,6 @@
-#Notes and caveats
+# Notes and caveats
 
-These notes are valid as of the CIS Red Hat Enterprise Linux 6 benchmark version 2.0.1.
+These notes are valid as of the CIS Red Hat Enterprise Linux & CentOS 6 benchmark version 2.0.1.
 
 General comments: This playbook follows the CIS benchmark as close as possible and is very restrictive. Modifications will be required if the server(s) will play a specific role such as web server.
 

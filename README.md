@@ -1,10 +1,6 @@
 ## Ansible + CIS Benchmarks + RHEL/CentOS 6
 
-[![Build Status](https://travis-ci.org/major/cis-rhel-ansible.svg?branch=master)](https://travis-ci.org/major/cis-rhel-ansible)
-
-This is an ansible playbook for automatically applying CIS Security Benchmarks to a system running Red Hat Enterprise Linux 6 or CentOS 6. This is based on CIS Benchmark version 2.0.1.
-
-_RHEL 7 and CentOS 7 bencharks are coming soon._
+This is an ansible playbook for automatically applying CIS Security Benchmarks to a system running Red Hat Enterprise Linux 6 or CentOS 6. This is compliant with the latest CIS Benchmark version 2.0.1. It is based on the original work done by Major Hayden (https://github.com/major/cis-rhel-ansible), which was based on version 1.3.0 of the CIS Benchmark.
 
 ### What are these benchmarks?
 The [Center for Internet Security](http://www.cisecurity.org/) publishes [security benchmarks](http://benchmarks.cisecurity.org/) for various systems.  Refer to the CIS site as the authoritative site for anything regarding these benchmarks.  You can join their community and contribute to the security benchmarks project.
@@ -16,12 +12,7 @@ The playbook will attempt to configure your system to meet as many of the CIS se
 
 For full details and caveats, refer to the [notes](NOTES.md).
 
-### How do I run it?
-***WAIT! DANGER!***
-
-![http://media.giphy.com/media/7U1XfwZ94okRW/giphy.gif](http://media.giphy.com/media/7U1XfwZ94okRW/giphy.gif)
-
-**Don't run this blindly on an actively running system.**  The playbook will make ***serious*** modifications to your system that could affect its availability.
+**Don't run this blindly on an production system.**  The playbook will make ***serious*** modifications to your system that could affect its availability.
 
 #### Basic operation
 
@@ -60,6 +51,6 @@ It's licensed under the [Apache License 2.0](https://www.apache.org/licenses/LIC
 
 ### Something doesn't work. You're awful at ansible playbooks.
 
-[Pull requests](https://github.com/major/cis-rhel-ansible/pulls) and [GitHub](https://github.com/major/cis-rhel-ansible/issues) issues are welcome!
+Pull requests and GitHub issues are welcome!
 
-_-- Major_
+Team VVL Systems
