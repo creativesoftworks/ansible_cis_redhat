@@ -47,4 +47,4 @@ Apache License, Version 2.0
 Author Information
 ------------------
 
-Major Hayden <major@mhtx.net>
+Team VVL Systems
