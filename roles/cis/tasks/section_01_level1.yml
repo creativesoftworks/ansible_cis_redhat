@@ -370,7 +370,7 @@
     tags:
       - scored
       - section1.5
-      - section1.5.2
+      - section1.5.4
 
 # Section 1.7 Warning Banners
 
@@ -414,7 +414,7 @@
     tags:
       - scored
       - section1.7
-      - section1,7.1
+      - section1.7.1
       - section1.7.1.4
       - section1.7.1.5
       - section1.7.1.6
