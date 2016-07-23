@@ -1,6 +1,6 @@
 ---
 #
-# Copyright 2014 Major Hayden
+# Copyright 2016 VVL Systems & Consulting
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 #   during initial setup of the operating system.
 #
 #   Section 1.1 Filesystem Configuration
+
+# TODO: move this first task to section 1.2 to fix failure on first run or new server
 
   - name: Create /etc/modprobe.d/CIS.conf with root ownership & mode
     file: path=/etc/modprobe.d/CIS.conf state=touch owner=root group=root mode=0600
