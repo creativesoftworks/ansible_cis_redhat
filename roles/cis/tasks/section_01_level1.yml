@@ -16,6 +16,21 @@
 #
 #   Section 1.1 Filesystem Configuration
 #
+
+  - name: Create /etc/modprobe.d/CIS.conf with root ownership & mode
+    file: path=/etc/modprobe.d/CIS.conf state=touch owner=root group=root mode=0600
+    changed_when: false
+    tags:
+      - notscored
+      - section1.1
+      - section1.1.18
+      - section1.1.19
+      - section1.1.20
+      - section1.1.21
+      - section1.1.22
+      - section1.1.23
+      - section1.1.24
+
   - name: 1.1.1.1 Ensure mounting of cramfs filesystems is disabled (Scored)
     lineinfile: >
       state=present
@@ -112,6 +127,17 @@
       - section1.1.4
       - section1.1.5
 
+# Need to check for correctness. Need sudo
+  - name: 1.1.3 - 1.1.5 Ensure nodev,nosuid,noexec option set for /tmp Partition (Scored)
+    command: mount -o remount,nodev,nosuid,noexec /tmp
+    when: (ansible_distribution == "RHEL" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section1.1
+      - section1.1.3
+      - section1.1.4
+      - section1.1.5
+
   - name: 1.1.8 - 1.1.10 Ensure nodev,nosuid,noexec option set for /var/tmp Partition (Scored)
     mount: >
       name="/var/tmp"
@@ -142,7 +168,15 @@
       - section1.1
       - section1.1.14
 
-  - name: 1.1.15 - 1.1.17 Ensure nodev, nosuid, noexec option set on /dev/shm Partition (Scored)
+  - name: 1.1.14 Ensure nodev option set on /home partition (Scored)
+    command: mount -o remount,nodev /home
+    when: (ansible_distribution == "RHEL" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section1.1
+      - section1.1.14
+
+  - name: 1.1.15 - 1.1.17 Ensure nodev,nosuid, noexec option set on /dev/shm Partition (Scored)
     mount: >
       name="/dev/shm"
       src="none"
@@ -150,11 +184,21 @@
       fstype="tmpfs"
       opts="nodev,nosuid,noexec"
     tags:
+      - scored
       - section1.1
       - section1.1.15
       - section1.1.16
       - section1.1.17
+
+  - name: 1.1.15 - 1.1.17 Ensure nodev,nosuid, noexec option set on /dev/shm Partition (Scored)
+    command: mount -o remount,nodev,nosuid,noexec /dev/shm
+    when: (ansible_distribution == "RHEL" and ansible_distribution_major_version == "7")
+    tags:
       - scored
+      - section1.1
+      - section1.1.15
+      - section1.1.16
+      - section1.1.17
 
   - name: 1.1.18 Ensure nodev option set on removable media partitions (Not Scored)
     debug: msg="*** Not relevant."
@@ -204,7 +248,7 @@
       - section1.2
       - section1.2.1
 
-  - name: 1.2.2 Ensure gpgcheck is globally activated (Scored)       #comment need to add /etc/yum.repos.d/*
+  - name: 1.2.2 Ensure gpgcheck is globally activated (Scored)
     lineinfile: >
       state=present
       dest=/etc/yum.conf 
@@ -289,6 +333,13 @@
 
 #   Section 1.4 Secure Boot Settings
 
+  - name: 1.4.1 Ensure permissions on bootloader config are configured (Scored)
+    debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
+    tags:
+      - scored
+      - section1.4
+      - section1.4.1
+
   - name: 1.4.2 Ensure bootloader password is set (Scored)
     debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
     tags:
@@ -308,6 +359,8 @@
       dest=/etc/sysconfig/init
       regexp=^PROMPT=
       line=PROMPT=no
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section1.4

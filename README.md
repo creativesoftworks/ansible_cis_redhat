@@ -1,6 +1,8 @@
-## Ansible + CIS Benchmarks + RHEL/CentOS 6
+## Ansible + CIS Benchmarks + RHEL/CentOS 
 
 This is an ansible playbook for automatically applying CIS Security Benchmarks to a system running Red Hat Enterprise Linux 6 or CentOS 6. This is compliant with the latest CIS Benchmark version 2.0.1. It is based on the original work done by Major Hayden (https://github.com/major/cis-rhel-ansible), which was based on version 1.3.0 of the CIS Benchmark.
+
+UPDATE: This playbook has been updated to support RHEL/CentOS 6 and 7 per CIS Benchmark versions 2.0.1 and 2.1.0 respectively.
 
 ### What are these benchmarks?
 The [Center for Internet Security](http://www.cisecurity.org/) publishes [security benchmarks](http://benchmarks.cisecurity.org/) for various systems.  Refer to the CIS site as the authoritative site for anything regarding these benchmarks.  You can join their community and contribute to the security benchmarks project.

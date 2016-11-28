@@ -1,1 +1,13 @@
-/var/log/messages /var/log/secure /var/log/maillog /var/log/spooler /var/log/boot.log /var/log/cron { 
+/var/log/messages
+/var/log/secure
+/var/log/maillog
+/var/log/spooler
+/var/log/boot.log
+/var/log/cron
+{
+sharedscripts
+postrotate
+/bin/kill -HUP 
+2> /dev/null || true
+endscript
+}

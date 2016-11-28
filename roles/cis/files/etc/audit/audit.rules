@@ -38,9 +38,8 @@
 -w /etc/selinux/ -p wa -k MAC-policy
 
 # 4.1.8 Ensure login and logout events are collected
--w /var/log/faillog -p wa -k logins
+-w /var/log/faillock -p wa -k logins
 -w /var/log/lastlog -p wa -k logins
--w /var/log/tallylog -p wa -k logins
 
 # 4.1.9 Ensure session initiation information is collected
 -w /var/run/utmp -p wa -k session
@@ -61,6 +60,9 @@
 -a always,exit -F arch=b64 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access
 -a always,exit -F arch=b32 -S creat -S open -S openat -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access
 
+# 4.1.12 Ensure use of privileged commands is collected
+# todo
+
 # 4.1.13 Ensure successful file system mounts are collected
 -a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts
 -a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts
@@ -71,6 +73,7 @@
 
 # 4.1.15 Ensure changes to system administration scope (sudoers) is collected
 -w /etc/sudoers -p wa -k scope
+-w /etc/sudoers.d -p wa -k scope
 
 # 4.1.16 Ensure system administrator actions (sudolog) are collected
 -w /var/log/sudo.log -p wa -k actions

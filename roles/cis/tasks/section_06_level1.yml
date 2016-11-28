@@ -18,6 +18,8 @@
   - name: 6.1.2 Ensure permissions on /etc/passwd are configured (Scored)
     file: >
       path=/etc/passwd
+      group=root
+      owner=root
       mode=0644
     tags:
       - scored
@@ -27,6 +29,8 @@
   - name: 6.1.3 Ensure permissions on /etc/shadow are configured (Scored)
     file: >
       path=/etc/shadow
+      group=root
+      owner=root
       mode=0000
     tags:
       - scored
@@ -36,6 +40,8 @@
   - name: 6.1.4 Ensure permissions on /etc/group are configured (Scored)
     file: >
       path=/etc/group
+      group=root
+      owner=root
       mode=0644
     tags:
       - scored
@@ -45,6 +51,8 @@
   - name: 6.1.5 Ensure permissions on /etc/gshadow are configured (Scored)
     file: >
       path=/etc/gshadow
+      group=root
+      owner=root
       mode=0000
     tags:
       - scored

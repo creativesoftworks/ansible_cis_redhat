@@ -206,7 +206,7 @@
       - section2.1
       - section2.1.5
 
-  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (check if exists) (Scored)
     stat: path=/etc/xinetd.d/rsh
     register: rsh
     tags:
@@ -214,7 +214,7 @@
       - section2.1
       - section2.1.6
 
-  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (Disable service)(Scored)
     service: >
       name=rsh
       state=stopped
@@ -225,7 +225,7 @@
       - section2.1
       - section2.1.6
 
-  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (check if exists) (Scored)
     stat: path=/etc/xinetd.d/rexec
     register: rexec
     tags:
@@ -233,7 +233,7 @@
       - section2.1
       - section2.1.6
 
-  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (Disable service)(Scored)
     service: >
       name=rexec
       state=stopped
@@ -244,7 +244,7 @@
       - section2.1
       - section2.1.6
 
-  - name: 2.1.6 Ensure rsh server is not enabled (check if exists) (Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (check if exists) (Scored)
     stat: path=/etc/xinetd.d/rlogin
     register: rlogin
     tags:
@@ -252,7 +252,7 @@
       - section2.1
       - section2.1.6
 
-  - name: 2.1.6 Ensure rsh server is not enabled (Disable service)(Scored)
+  - name: 2.1.6 (2.2.17 RHEL 7) Ensure rsh server is not enabled (Disable service)(Scored)
     service: >
       name=rlogin
       state=stopped
@@ -267,12 +267,25 @@
     yum: >
       name=talk
       state=absent
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section2.1
       - section2.1.7
 
-  - name: 2.1.8 Ensure telnet server is not enabled (Scored)
+  - name: 2.1.7 (2.2.18 RHEL 7) Ensure talk server is not enabled (Scored)
+    yum: >
+      name=talk
+      state=absent
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section2.1
+      - section2.1.7
+
+  - name: 2.1.8 (2.2.19 RHEL 7) Ensure telnet server is not enabled (Scored)
     yum: >
       name=telnet
       state=absent
@@ -281,7 +294,7 @@
       - section2.1
       - section2.1.8
 
-  - name: 2.1.9 Ensure tftp server is not enabled (Scored)
+  - name: 2.1.9 (2.2.20 RHEL 7) Ensure tftp server is not enabled (Scored)
     yum: >
       name=tftp
       state=absent
@@ -290,7 +303,7 @@
       - section2.1
       - section2.1.9
 
-  - name: 2.1.10 Ensure rsync service is not enabled (Scored)
+  - name: 2.1.10 (2.2.21 RHEL 7) Ensure rsync service is not enabled (Scored)
     yum: >
       name=rsync
       state=absent
@@ -299,10 +312,20 @@
       - section2.1
       - section2.1.10
 
-  - name: 2.1.11 Ensure xinetd is not enabled (Scored)
-    yum: >
+  - name: 2.1.11 (2.1.7 RHEL 7) Ensure xinetd is not enabled (check if installed) (Scored)
+    stat: path=/etc/init.d/xinetd
+    register: xinetd_service
+    tags:
+      - scored
+      - section2.1
+      - section2.1.11
+
+  - name: 2.1.11 (2.1.7 RHEL 7) Ensure xinetd is not enabled (disable service) (Scored)
+    service: >
       name=xinetd
-      state=absent
+      state=stopped
+      enabled=no
+    when: xinetd_service.stat.exists
     tags:
       - scored
       - section2.1
@@ -514,7 +537,7 @@
       - section2.2
       - section2.2.8
 
-  - name: 2.2.9 Ensure FTP Server is not enabled (check for named.conf) (Scored)
+  - name: 2.2.9 Ensure FTP Server is not enabled (check for vsftpd.conf) (Scored)
     stat: path=/etc/vsftpd/vsftpd.conf
     register: vsftpd
     tags:
@@ -633,7 +656,7 @@
     tags:
       - scored
       - section2.2
-      - section2.2.14
+      - section2.2.15
 
   - name: 2.2.16 Ensure NIS Server is not enabled (Scored)
     yum: >

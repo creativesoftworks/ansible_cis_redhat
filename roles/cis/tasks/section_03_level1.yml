@@ -26,6 +26,16 @@
       - section3.1
       - section3.1.1
 
+  - name: 3.1.1 Ensure IP forwarding is disabled (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.ip_forward=0
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.1
+      - section3.1.1
+
   - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
     sysctl: >
       name=net.ipv4.conf.all.send_redirects
@@ -43,6 +53,17 @@
       value=0
       state=present
       ignoreerrors=true
+    tags:
+      - scored
+      - section3.1
+      - section3.1.2
+
+  - name: 3.1.2 Ensure packet redirect sending is disabled (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.send_redirects=0
+      - sysctl -w net.ipv4.conf.default.send_redirects=0
+      - sysctl -w net.ipv4.route.flush=1
     tags:
       - scored
       - section3.1
@@ -72,6 +93,17 @@
       - section3.2
       - section3.2.1
 
+  - name: 3.2.1 Ensure source routed packets are not accepted (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.accept_source_route=0
+      - sysctl -w net.ipv4.conf.default.accept_source_route=0
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.2
+      - section3.2.1
+
   - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
     sysctl: >
       name=net.ipv4.conf.all.accept_redirects
@@ -89,6 +121,17 @@
       value=0
       state=present
       ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.2
+
+  - name: 3.2.2 Ensure ICMP redirects are not accepted (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.accept_redirects=0
+      - sysctl -w net.ipv4.conf.default.accept_redirects=0
+      - sysctl -w net.ipv4.route.flush=1
     tags:
       - scored
       - section3.2
@@ -116,6 +159,17 @@
       - section3.2
       - section3.2.3
 
+  - name: 3.2.3 Ensure secure ICMP redirects are not accepted (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.secure_redirects=0
+      - sysctl -w net.ipv4.conf.default.secure_redirects=0
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.2
+      - section3.2.3
+
   - name: 3.2.4 Ensure suspicious packets are logged (Scored)
     sysctl: >
       name=net.ipv4.conf.all.log_martians
@@ -138,6 +192,17 @@
       - section3.2
       - section3.2.4
 
+  - name: 3.2.4 Ensure suspicious packets are logged (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.log_martians=1
+      - sysctl -w net.ipv4.conf.default.log_martians=1
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.2
+      - section3.2.4
+
   - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
     sysctl: >
       name=net.ipv4.icmp_echo_ignore_broadcasts
@@ -149,12 +214,32 @@
       - section3.2
       - section3.2.5
 
+  - name: 3.2.5 Ensure broadcast ICMP requests are ignored (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.2
+      - section3.2.5
+
   - name: 3.2.6 Ensure bogus ICMP responses are ignored (Scored)
     sysctl: >
       name=net.ipv4.icmp_ignore_bogus_error_responses
       value=1
       state=present
       ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.6
+
+  - name: 3.2.6 Ensure bogus ICMP responses are ignored (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
+      - sysctl -w net.ipv4.route.flush=1
     tags:
       - scored
       - section3.2
@@ -182,12 +267,33 @@
       - section3.2
       - section3.2.7
 
+  - name: 3.2.7 Ensure Reverse Path Filtering is enabled (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.conf.all.rp_filter=1
+      - sysctl -w net.ipv4.conf.default.rp_filter=1
+      - sysctl -w net.ipv4.route.flush=1
+    tags:
+      - scored
+      - section3.2
+      - section3.2.7
+
   - name: 3.2.8 Ensure TCP SYN Cookies is enabled (Scored)
     sysctl: >
       name=net.ipv4.tcp_syncookies
       value=1
       state=present
       ignoreerrors=true
+    tags:
+      - scored
+      - section3.2
+      - section3.2.8
+
+  - name: 3.2.8 Ensure TCP SYN Cookies is enabled (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv4.tcp_syncookies=1
+      - sysctl -w net.ipv4.route.flush=1
     tags:
       - scored
       - section3.2
@@ -202,7 +308,7 @@
       state=present
       ignoreerrors=true
     tags:
-      - notscored
+      - scored
       - section3.3
       - section3.3.1
 
@@ -213,7 +319,18 @@
       state=present
       ignoreerrors=true
     tags:
-      - notscored
+      - scored
+      - section3.3
+      - section3.3.1
+
+  - name: 3.3.1 Ensure IPv6 router advertisements are not accepted (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv6.conf.all.accept_ra=0
+      - sysctl -w net.ipv6.conf.default.accept_ra=0
+      - sysctl -w net.ipv6.route.flush=1
+    tags:
+      - scored
       - section3.3
       - section3.3.1
 
@@ -224,7 +341,7 @@
       state=present
       ignoreerrors=true
     tags:
-      - notscored
+      - scored
       - section3.3
       - section3.3.2
 
@@ -235,7 +352,18 @@
       state=present
       ignoreerrors=true
     tags:
-      - notscored
+      - scored
+      - section3.3
+      - section3.3.2
+
+  - name: 3.3.2 Ensure IPv6 redirects are not accepted (Scored)
+    command: "{{ item }}"
+    with_items:
+      - sysctl -w net.ipv6.conf.all.accept_redirects=0
+      - sysctl -w net.ipv6.conf.default.accept_redirects=0
+      - sysctl -w net.ipv6.route.flush=1
+    tags:
+      - scored
       - section3.3
       - section3.3.2
 
@@ -332,6 +460,8 @@
   - name: 3.4.4 Ensure permissions on /etc/hosts.allow are configured (Scored)
     file: >
       path=/etc/hosts.allow
+      group=root
+      owner=root
       mode=0644
     tags:
       - scored
@@ -341,6 +471,8 @@
   - name: 3.4.5 Ensure permissions on /etc/hosts.deny are configured (Scored)
     file: >
       path=/etc/hosts.deny
+      group=root
+      owner=root
       mode=0644
     tags:
       - scored
@@ -399,6 +531,19 @@
     yum: >
       name=iptables
       state=present
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+    tags:
+      - scored
+      - section3.6
+      - section3.6.1
+
+  - name: 3.6.1 Ensure iptables is installed (Scored)
+    yum: >
+      name=firewalld
+      state=present
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
     tags:
       - scored
       - section3.6
@@ -409,6 +554,20 @@
       name=iptables
       state=started
       enabled=yes
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+    tags:
+      - scored
+      - section3.6
+      - section3.6.1
+
+  - name: 3.6.1 Ensure iptables is running (Scored)
+    service: >
+      name=firewalld
+      state=started
+      enabled=yes
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7")
     tags:
       - scored
       - section3.6
@@ -427,6 +586,8 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A INPUT -i lo -j ACCEPT"
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6
@@ -438,6 +599,8 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A OUTPUT -o lo -j ACCEPT"
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6
@@ -449,6 +612,8 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A INPUT -s 127.0.0.0/8 -j DROP"
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6

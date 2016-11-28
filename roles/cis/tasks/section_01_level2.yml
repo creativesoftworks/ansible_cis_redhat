@@ -19,28 +19,30 @@
 #
 #   Section 1.1 Filesystem Configuration
 
-# TODO: move this first task to section 1.2 to fix failure on first run or new server
-
-  - name: Create /etc/modprobe.d/CIS.conf with root ownership & mode
-    file: path=/etc/modprobe.d/CIS.conf state=touch owner=root group=root mode=0600
-    changed_when: false
-    tags:
-      - notscored
-      - section1.1
-      - section1.1.18
-      - section1.1.19
-      - section1.1.20
-      - section1.1.21
-      - section1.1.22
-      - section1.1.23
-      - section1.1.24
-
   - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
     debug: msg="*** Manually create Separate Partition for /tmp."
     tags:
       - scored
       - section1.1
       - section1.1.2
+
+  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+    debug: msg="*** Manually run commands per this section of the CIS Benchmark"
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section1.1
+      - section1.1.2
+
+  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+    copy: >
+      src=systemd/system/tmp.mount
+      dest=/etc/systemd/system/local-fs.target.wants/tmp.mount
+    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section1.1
+      - section1.2
 
   - name: 1.1.6 Ensure separate partition exists for /var (Scored)
     debug: msg="*** Manually create Separate Partition for /var."
@@ -93,17 +95,8 @@
     lineinfile: >
       state=absent
       dest=/etc/grub.conf
-      line="selinux=0"
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1.1
-
-  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
-    lineinfile: >
-      state=absent
-      dest=/etc/grub.conf
-      line="enforcing=0"
+      regexp=(selinux)(=)(0)\s(enforcing)(=)(0)
+      line="GRUB_CMDLINE_LINUX='console=ttyS0,115200n8 console=tty0 net.ifnames=0 crashkernel=auto'"
     tags:
       - scored
       - section1.6

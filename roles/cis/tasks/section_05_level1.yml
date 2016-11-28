@@ -258,12 +258,27 @@
       - section5.2
       - section5.2.11
 
-  - name: 5.2.12 Ensure only approved MAC algorithms are used (Scored) #comment: need to test
+  - name: 5.2.12 Ensure only approved MAC algorithms are used (Scored)
     lineinfile: >
       dest=/etc/ssh/sshd_config
       regexp="^MACs "
       line="MACs hmac-sha2-512,hmac-sha2-256"
     notify: Reload sshd
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
+    tags:
+      - scored
+      - section5.2
+      - section5.2.12
+
+  - name: 5.2.12 Ensure only approved MAC algorithms are used (Scored)
+    lineinfile: >
+      dest=/etc/ssh/sshd_config
+      regexp="^MACs "
+      line="MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com"
+    notify: Reload sshd
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
     tags:
       - scored
       - section5.2
@@ -365,8 +380,12 @@
 
   - name: 5.3.1 - 5.3.4 Configure PAM (Scored)
     copy: >
-      src=etc/pam.d/system-auth
+      src=etc/pam.d/rhel-6/system-auth
       dest=/etc/pam.d/system-auth
+      owner=root
+      group=root
+      mode=0644
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section5.3
@@ -377,14 +396,59 @@
 
   - name: 5.3.1 - 5.3.4 Configure PAM (Scored)
     copy: >
-      src=etc/pam.d/password-auth
+      src=etc/pam.d/rhel-6/password-auth
       dest=/etc/pam.d/password-auth
+      owner=root
+      group=root
+      mode=0644
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section5.3
       - section5.3.1
       - section5.3.2
       - section5.3.3
+      - section5.3.4
+
+  - name: 5.3.1 Ensure password creation requirements are configured (Scored)
+    lineinfile: >
+      state=present 
+      dest=/etc/security/pwquality.conf
+      backrefs=yes
+      regexp={{ item.regexp }}
+      line={{ item.line }}
+    with_items:
+      - { regexp: '^# minlen\s+', line: 'minlen = 14' }
+      - { regexp: '^# dcredit\s+', line: 'dcredit = -1' }
+      - { regexp: '^# ucredit\s+', line: 'ucredit = -1' }
+      - { regexp: '^# ocredit\s+', line: 'ocredit = -1' }
+      - { regexp: '^# lcredit\s+', line: 'lcredit = -1' }
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+    tags:
+      - scored
+      - section5.3
+      - section5.3.1
+
+  - name: 5.3.2 Ensure lockout for failed password attempts is configured (Scored)
+    debug: msg="*** Manually update password-auth and system-auth."
+    tags:
+      - scored
+      - section5.3
+      - section5.3.2
+
+  - name: 5.3.3 Ensure password reuse is limited (Scored)
+    debug: msg="*** Manually update password-auth and system-auth."
+    tags:
+      - scored
+      - section5.3
+      - section5.3.3
+
+  - name: 5.3.4 Ensure password hashing algorithm is SHA-512 (Scored)
+    debug: msg="*** Manually update password-auth and system-auth."
+    tags:
+      - scored
+      - section5.3
       - section5.3.4
 
 #   Section 5.4 User Accounts and Environment
@@ -467,7 +531,7 @@
       - section5.4.3
 
   - name: 5.4.4 Ensure default user umask is 027 or more restrictive (Scored)
-    lineinfile: 
+    lineinfile: >
       state=present
       create=yes
       dest=/etc/profile.d/cis.sh
@@ -486,8 +550,20 @@
 
   - name: 5.6 Ensure access to the su command is restricted (Scored)
     copy: >
-      src=etc/pam.d/su
+      src=/etc/ansible/roles/cis/files/etc/pam.d/rhel-6/su
       dest=/etc/pam.d/su
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
+    tags:
+      - scored
+      - section5.6
+
+  - name: 5.6 Ensure access to the su command is restricted (Scored)
+    copy: >
+      src=/etc/ansible/roles/cis/files/etc/pam.d/rhel-7/su
+      dest=/etc/pam.d/su
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
+          (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
     tags:
       - scored
       - section5.6
