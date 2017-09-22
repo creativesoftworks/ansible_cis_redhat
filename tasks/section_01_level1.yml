@@ -119,7 +119,7 @@
       fstype={{ item.fstype }}
       opts="nodev,nosuid,noexec"
     when: item.mount == "/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -146,7 +146,7 @@
       fstype={{ item.fstype }}
       opts="nodev,nosuid,noexec"
     when: item.mount == "/var/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -162,7 +162,7 @@
       fstype={{ item.fstype }}
       opts="nodev"
     when: item.mount == "/home"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
