@@ -96,6 +96,7 @@
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install udf /bin/true"
+    when: disable_udf_filesystem
     tags:
       - scored
       - section1.1

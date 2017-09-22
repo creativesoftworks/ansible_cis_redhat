@@ -85,3 +85,5 @@ verify_find: no
 
 # 9.1.12 - 9.1.14 to verify rpm
 verify_rpm: no
+
+disable_udf_filesystem: yes
