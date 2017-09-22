@@ -515,7 +515,7 @@
 
   - name: 5.4.2 Ensure system accounts are non-login (Scored)
     command: /usr/sbin/usermod -s /sbin/nologin {{ item }}
-    with_items: enabled_system_accounts.stdout_lines
+    with_items: "{{ enabled_system_accounts.stdout_lines }}"
     tags:
       - scored
       - section5.4
