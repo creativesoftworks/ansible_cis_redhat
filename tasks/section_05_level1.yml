@@ -550,7 +550,7 @@
 
   - name: 5.6 Ensure access to the su command is restricted (Scored)
     copy: >
-      src=/etc/ansible/roles/cis/files/etc/pam.d/rhel-6/su
+      src=etc/pam.d/rhel-6/su
       dest=/etc/pam.d/su
     when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
           (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
@@ -560,7 +560,7 @@
 
   - name: 5.6 Ensure access to the su command is restricted (Scored)
     copy: >
-      src=/etc/ansible/roles/cis/files/etc/pam.d/rhel-7/su
+      src=etc/pam.d/rhel-7/su
       dest=/etc/pam.d/su
     when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
           (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
