@@ -96,6 +96,7 @@
       state=present
       dest=/etc/modprobe.d/CIS.conf
       line="install udf /bin/true"
+    when: disable_udf_filesystem
     tags:
       - scored
       - section1.1
@@ -119,7 +120,7 @@
       fstype={{ item.fstype }}
       opts="nodev,nosuid,noexec"
     when: item.mount == "/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -146,7 +147,7 @@
       fstype={{ item.fstype }}
       opts="nodev,nosuid,noexec"
     when: item.mount == "/var/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -162,7 +163,7 @@
       fstype={{ item.fstype }}
       opts="nodev"
     when: item.mount == "/home"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -428,27 +429,27 @@
 # Section 1.7 Warning Banners
 
   - name: 1.7.1.1 Ensure message of the day is configured properly (Scored)
-    copy: >
-      src=etc/motd
-      dest=/etc/motd 
+    template:
+      src: motd.j2
+      dest: /etc/motd
     tags:
       - scored
       - section1.7
       - section1.7.1.1
 
   - name: 1.7.1.2 Ensure local login warning banner is configured properly (Not Scored)
-    copy: >
-      src=etc/issue
-      dest=/etc/issue  
+    template:
+      src: motd.j2
+      dest: /etc/issue
     tags:
       - scored
       - section1.7
       - section1.7.1.2
 
   - name: 1.7.1.3 Ensure remote login warning banner is configured properly (Not Scored)
-    copy: >
-      src=etc/issue.net
-      dest=/etc/issue.net
+    template:
+      src: motd.j2
+      dest: /etc/issue.net
     tags:
       - scored
       - section1.7

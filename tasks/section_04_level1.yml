@@ -173,26 +173,19 @@
       - section4.2
       - section4.2.3
 
+  - name: find all log files under /var/log
+    find:
+      paths: "/var/log"
+      file_type: file
+      recurse: yes
+    register: log_files
+
   - name: 4.2.4 Ensure permissions on all logfiles are configured (Scored)
     file:
-      path=/var/log/{{ item }}
-      owner=root
-      group=wheel
-      mode=0640
-    with_items:
-      # - mail
-      # - mail.info
-      # - mail.warn
-      # - mail.err
-      # - news.crit
-      # - news.err
-      # - news.notice
-      # - warn
-      - messages
-      # - kern.log
-      # - daemon.log
-      # - syslog
-      # - localmessages
+      path: "{{ item.path }}"
+      mode: "u+rw,g-wx,o-rwx"
+      state: file
+    with_items: "{{ log_files.files }}"
     tags:
       - scored
       - section4.2

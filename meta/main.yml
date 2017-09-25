@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Ricardo Oliveira
+  description: Audit/remediate hosts using CIS security benchmarks
+  company: Creative Softworks LTD
+  license: Apache
+  min_ansible_version: 2.2.1.0
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+  categories: system
+dependencies: []
