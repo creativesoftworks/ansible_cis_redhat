@@ -47,4 +47,5 @@ Apache License, Version 2.0
 Author Information
 ------------------
 
-Team VVL Systems
+Ricardo Oliveira
+Based on the work of Team VVL Systems and Major Hayden
