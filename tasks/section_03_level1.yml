@@ -586,8 +586,9 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A INPUT -i lo -j ACCEPT"
-    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
-          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+    when:
+      - enable_iptables
+      - (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6
@@ -599,8 +600,9 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A OUTPUT -o lo -j ACCEPT"
-    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
-          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+    when:
+      - enable_iptables
+      - (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6
@@ -612,8 +614,9 @@
       dest=/etc/sysconfig/iptables
       insertafter=EOF
       line="-A INPUT -s 127.0.0.0/8 -j DROP"
-    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or
-          (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+    when:
+      - enable_iptables
+      - (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6") or (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
     tags:
       - scored
       - section3.6
