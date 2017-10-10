@@ -16,185 +16,185 @@
 #
 #   Section 4.2 Configure Logging
 #
-  - name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
-    yum: >
-      name=rsyslog
-      state=present
-    tags:
-      - scored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.1
+- name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
+  yum: >
+    name=rsyslog
+    state=present
+  tags:
+    - scored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.1
 
-  - name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
-    service: >
-      name=rsyslog
-      enabled=yes
-      state=started
-    tags:
-      - scored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.1
+- name: 4.2.1.1 Ensure rsyslog Service is enabled (Scored)
+  service: >
+    name=rsyslog
+    enabled=yes
+    state=started
+  tags:
+    - scored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.1
 
-  - name: 4.2.1.2 Ensure logging is configured (Not Scored)
-    copy: >
-      src=etc/rsyslog.conf
-      dest=/etc/rsyslog.conf
-      owner=root
-      group=root
-      mode=0644
-      force=no
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.2
+- name: 4.2.1.2 Ensure logging is configured (Not Scored)
+  copy: >
+    src=etc/rsyslog.conf
+    dest=/etc/rsyslog.conf
+    owner=root
+    group=root
+    mode=0644
+    force=no
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.2
 
-  - name: 4.2.1.2 Ensure logging is configured (Not Scored)
-    command: pkill -HUP rsyslogd
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.2
+- name: 4.2.1.2 Ensure logging is configured (Not Scored)
+  command: pkill -HUP rsyslogd
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.2
 
-  - name: 4.2.1.3 Ensure rsyslog default file permissions configured (Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/rsyslog.conf
-      insertbefore=BOF
-      line="$FileCreateMode 0640"
-    tags:
-      - scored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.3
+- name: 4.2.1.3 Ensure rsyslog default file permissions configured (Scored)
+  lineinfile: >
+    state=present
+    dest=/etc/rsyslog.conf
+    insertbefore=BOF
+    line="$FileCreateMode 0640"
+  tags:
+    - scored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.3
 
-  - name: 4.2.1.4 Ensure rsyslog is configured to send logs to a remote log host (Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/rsyslog.conf
-      regexp="^\*\.\*"
-      line="*.* @@{{ rsyslog_dest }}"
-    when: rsyslog_dest is defined
-    tags:
-      - scored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.4
+- name: 4.2.1.4 Ensure rsyslog is configured to send logs to a remote log host (Scored)
+  lineinfile: >
+    state=present
+    dest=/etc/rsyslog.conf
+    regexp="^\*\.\*"
+    line="*.* @@{{ rsyslog_dest }}"
+  when: rsyslog_dest is defined
+  tags:
+    - scored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.4
 
-  - name: 4.2.1.4 Ensure rsyslog is configured to send logs to a remote log host (Scored)
-    command: pkill -HUP rsyslogd
-    when: rsyslog_dest is defined
-    tags:
-      - scored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.4
+- name: 4.2.1.4 Ensure rsyslog is configured to send logs to a remote log host (Scored)
+  command: pkill -HUP rsyslogd
+  when: rsyslog_dest is defined
+  tags:
+    - scored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.4
 
-  - name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
-    lineinfile: >
-      state=present
-      line="$ModLoad imtcp.so"
-    when: rsyslog_host
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.5
+- name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
+  lineinfile: >
+    state=present
+    line="$ModLoad imtcp.so"
+  when: rsyslog_host
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.5
 
-  - name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
-    lineinfile: >
-      state=present
-      line="$InputTCPServerRun 514"
-    when: rsyslog_host
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.5
+- name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
+  lineinfile: >
+    state=present
+    line="$InputTCPServerRun 514"
+  when: rsyslog_host
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.5
 
-  - name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
-    command: pkill -HUP rsyslogd
-    when: rsyslog_host
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.1
-      - section4.2.1.5
+- name: 4.2.1.5 Ensure remote rsyslog messages are only accepted on designated log hosts. (Not Scored)
+  command: pkill -HUP rsyslogd
+  when: rsyslog_host
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.1
+    - section4.2.1.5
 
-  - name: 4.2.2.1 Ensure syslog-ng service is enabled (Scored)
-    debug: msg="This section only applies if syslog-ng is installed on the system."
-    tags:
-      - scored
-      - section4.2
-      - section4.2.2
-      - section4.2.2.1
+- name: 4.2.2.1 Ensure syslog-ng service is enabled (Scored)
+  debug: msg="This section only applies if syslog-ng is installed on the system."
+  tags:
+    - scored
+    - section4.2
+    - section4.2.2
+    - section4.2.2.1
 
-  - name: 4.2.2.2 Ensure logging is configured (Not Scored)
-    debug: msg="This section only applies if syslog-ng is installed on the system."
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.2
-      - section4.2.2.2
+- name: 4.2.2.2 Ensure logging is configured (Not Scored)
+  debug: msg="This section only applies if syslog-ng is installed on the system."
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.2
+    - section4.2.2.2
 
-  - name: 4.2.2.3 Ensure syslog-ng default file permissions configured (Scored)
-    debug: msg="This section only applies if syslog-ng is installed on the system."
-    tags:
-      - scored
-      - section4.2
-      - section4.2.2
-      - section4.2.2.3
+- name: 4.2.2.3 Ensure syslog-ng default file permissions configured (Scored)
+  debug: msg="This section only applies if syslog-ng is installed on the system."
+  tags:
+    - scored
+    - section4.2
+    - section4.2.2
+    - section4.2.2.3
 
-  - name: 4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log host (Not Scored)
-    debug: msg="This section only applies if syslog-ng is installed on the system."
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.2
-      - section4.2.2.4
+- name: 4.2.2.4 Ensure syslog-ng is configured to send logs to a remote log host (Not Scored)
+  debug: msg="This section only applies if syslog-ng is installed on the system."
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.2
+    - section4.2.2.4
 
-  - name: 4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)
-    debug: msg="This section only applies if syslog-ng is installed on the system."
-    tags:
-      - notscored
-      - section4.2
-      - section4.2.2
-      - section4.2.2.5
+- name: 4.2.2.5 Ensure remote syslog-ng messages are only accepted on designated log hosts (Not Scored)
+  debug: msg="This section only applies if syslog-ng is installed on the system."
+  tags:
+    - notscored
+    - section4.2
+    - section4.2.2
+    - section4.2.2.5
 
-  - name: 4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
-    yum: >
-      name=rsyslog
-      state=present
-    tags:
-      - scored
-      - section4.2
-      - section4.2.3
+- name: 4.2.3 Ensure rsyslog or syslog-ng is installed (Scored)
+  yum: >
+    name=rsyslog
+    state=present
+  tags:
+    - scored
+    - section4.2
+    - section4.2.3
 
-  - name: find all log files under /var/log
-    find:
-      paths: "/var/log"
-      file_type: file
-      recurse: yes
-    register: log_files
+- name: find all log files under /var/log
+  find:
+    paths: "/var/log"
+    file_type: file
+    recurse: yes
+  register: log_files
 
-  - name: 4.2.4 Ensure permissions on all logfiles are configured (Scored)
-    file:
-      path: "{{ item.path }}"
-      mode: "u+rw,g-wx,o-rwx"
-      state: file
-    with_items: "{{ log_files.files }}"
-    tags:
-      - scored
-      - section4.2
-      - section4.2.4
+- name: 4.2.4 Ensure permissions on all logfiles are configured (Scored)
+  file:
+    path: "{{ item.path }}"
+    mode: "u+rw,g-wx,o-rwx"
+    state: file
+  with_items: "{{ log_files.files }}"
+  tags:
+    - scored
+    - section4.2
+    - section4.2.4
 
-  - name: 4.3 Ensure logrotate is configured (Not Scored)
-    copy: >
-      src=etc/logrotate.d/syslog
-      dest=/etc/logrotate.d/syslog
-    tags:
-      - notscored
-      - section4.3
+- name: 4.3 Ensure logrotate is configured (Not Scored)
+  copy: >
+    src=etc/logrotate.d/syslog
+    dest=/etc/logrotate.d/syslog
+  tags:
+    - notscored
+    - section4.3

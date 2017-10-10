@@ -19,131 +19,131 @@
 #
 #   Section 1.1 Filesystem Configuration
 
-  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
-    debug: msg="*** Manually create Separate Partition for /tmp."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.2
+- name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+  debug: msg="*** Manually create Separate Partition for /tmp."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.2
 
-  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
-    debug: msg="*** Manually run commands per this section of the CIS Benchmark"
-    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
-    tags:
-      - scored
-      - section1.1
-      - section1.1.2
+- name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+  debug: msg="*** Manually run commands per this section of the CIS Benchmark"
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+  tags:
+    - scored
+    - section1.1
+    - section1.1.2
 
-  - name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
-    copy: >
-      src=systemd/system/tmp.mount
-      dest=/etc/systemd/system/local-fs.target.wants/tmp.mount
-    when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
-    tags:
-      - scored
-      - section1.1
-      - section1.2
+- name: 1.1.2 Ensure separate partition exists for /tmp (Scored)
+  copy: >
+    src=systemd/system/tmp.mount
+    dest=/etc/systemd/system/local-fs.target.wants/tmp.mount
+  when: (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+  tags:
+    - scored
+    - section1.1
+    - section1.2
 
-  - name: 1.1.6 Ensure separate partition exists for /var (Scored)
-    debug: msg="*** Manually create Separate Partition for /var."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.6
+- name: 1.1.6 Ensure separate partition exists for /var (Scored)
+  debug: msg="*** Manually create Separate Partition for /var."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.6
 
-  - name: 1.1.7 Ensure separate partition exists for /var/tmp (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/tmp."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.7
+- name: 1.1.7 Ensure separate partition exists for /var/tmp (Scored)
+  debug: msg="*** Manually create Separate Partition for /var/tmp."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.7
 
-  - name: 1.1.11 Ensure separate partition exists for /var/log (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.11
+- name: 1.1.11 Ensure separate partition exists for /var/log (Scored)
+  debug: msg="*** Manually create Separate Partition for /var/log."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.11
 
-  - name: 1.1.12 Ensure separate partition exists for /var/log/audit (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log/audit."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.12
+- name: 1.1.12 Ensure separate partition exists for /var/log/audit (Scored)
+  debug: msg="*** Manually create Separate Partition for /var/log/audit."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.12
 
-  - name: 1.1.13 Ensure separate partition exists for /home (Scored)
-    debug: msg="*** Manually create Separate Partition for /home."
-    tags:
-      - scored
-      - section1.1
-      - section1.1.13
+- name: 1.1.13 Ensure separate partition exists for /home (Scored)
+  debug: msg="*** Manually create Separate Partition for /home."
+  tags:
+    - scored
+    - section1.1
+    - section1.1.13
 
 # Section 1.2 Configure Software Updates
 
-  - name: 1.2.5 Disable the rhnsd Daemon (Not Scored)
-    action: command /sbin/chkconfig rhnsd off
-    when: ansible_distribution == "RedHat"
-    tags:
-      - notscored
-      - section1.2
-      - section1.2.5
+- name: 1.2.5 Disable the rhnsd Daemon (Not Scored)
+  action: command /sbin/chkconfig rhnsd off
+  when: ansible_distribution == "RedHat"
+  tags:
+    - notscored
+    - section1.2
+    - section1.2.5
 
 #   Section 1.6 Mandatory Access Control
 
-  - name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
-    lineinfile: >
-      state=absent
-      dest=/etc/grub.conf
-      regexp=(selinux)(=)(0)\s(enforcing)(=)(0)
-      line="GRUB_CMDLINE_LINUX='console=ttyS0,115200n8 console=tty0 net.ifnames=0 crashkernel=auto'"
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1.1
+- name: 1.6.1.1 Ensure SELinux is not disabled in bootloader configuration (Scored)
+  lineinfile: >
+    state=absent
+    dest=/etc/grub.conf
+    regexp=(selinux)(=)(0)\s(enforcing)(=)(0)
+    line="GRUB_CMDLINE_LINUX='console=ttyS0,115200n8 console=tty0 net.ifnames=0 crashkernel=auto'"
+  tags:
+    - scored
+    - section1.6
+    - section1.6.1.1
 
-  - name: 1.6.1.2 to 1.6.1.3 Ensure SELinux state and policy are configured (Scored)
-    selinux: >
-      state=enforcing
-      policy=targeted
-    ignore_errors: yes
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1
-      - section1.6.1.2
-      - section1.6.1.3
+- name: 1.6.1.2 to 1.6.1.3 Ensure SELinux state and policy are configured (Scored)
+  selinux: >
+    state=enforcing
+    policy=targeted
+  ignore_errors: yes
+  tags:
+    - scored
+    - section1.6
+    - section1.6.1
+    - section1.6.1.2
+    - section1.6.1.3
 
-  - name: 1.6.1.4 Ensure SETroubleshoot is not installed (Scored)
-    yum: >
-      name=setroubleshoot
-      state=absent
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1.4
+- name: 1.6.1.4 Ensure SETroubleshoot is not installed (Scored)
+  yum: >
+    name=setroubleshoot
+    state=absent
+  tags:
+    - scored
+    - section1.6
+    - section1.6.1.4
 
-  - name: 1.6.1.5 Ensure the MCS Translation Service (mcstrans) is not installed (Scored)
-    yum: >
-      name=mcstrans
-      state=absent
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1.5
+- name: 1.6.1.5 Ensure the MCS Translation Service (mcstrans) is not installed (Scored)
+  yum: >
+    name=mcstrans
+    state=absent
+  tags:
+    - scored
+    - section1.6
+    - section1.6.1.5
 
-  - name: 1.6.1.6 Ensure no unconfined daemons exist (Scored)
-    debug: msg="*** Check via cron jobs or manually."
-    tags:
-      - scored
-      - section1.6
-      - section1.6.1.6
+- name: 1.6.1.6 Ensure no unconfined daemons exist (Scored)
+  debug: msg="*** Check via cron jobs or manually."
+  tags:
+    - scored
+    - section1.6
+    - section1.6.1.6
 
-  - name: 1.6.2 Ensure SELinux is installed (Scored)
-    yum: >
-      name=libselinux
-      state=present
-    tags:
-      - scored
-      - section1.6
-      - section1.6.2
+- name: 1.6.2 Ensure SELinux is installed (Scored)
+  yum: >
+    name=libselinux
+    state=present
+  tags:
+    - scored
+    - section1.6
+    - section1.6.2

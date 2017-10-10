@@ -5,6 +5,16 @@ This role can be used to audit or remediate a host against the Center for Intern
 
 *Disclaimer: This project has no affiliation with CIS.  The role and its contents have not been reviewed or endorsed by CIS.*
 
+OS compatibility
+----------------
+
+* RHEL 6
+* CentOS 6
+
+Not verified (but *might* work):
+* RHEL 7
+* Centos 7
+
 Requirements
 ------------
 
@@ -13,7 +23,7 @@ This role has no requirements or dependencies.
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+See defaults/main.yml
 
 Dependencies
 ------------

@@ -15,32 +15,32 @@
 #   limitations under the License.
 #
 
-  - include: section_01.yml
-    tags:
-      - section1
-      - Initial Setup
+- include: section_01.yml
+  tags:
+    - section1
+    - Initial Setup
 
-  - include: section_02.yml
-    tags:
-      - section2
-      - Services
+- include: section_02.yml
+  tags:
+    - section2
+    - Services
 
-  - include: section_03.yml
-    tags:
-      - section3
-      - Network Configuration
+- include: section_03.yml
+  tags:
+    - section3
+    - Network Configuration
 
-  - include: section_04.yml
-    tags:
-      - section4
-      - Logging & Auditing
+- include: section_04.yml
+  tags:
+    - section4
+    - Logging & Auditing
 
-  - include: section_05.yml
-    tags:
-      - section5
-      - Access, Authentication and Authorization
+- include: section_05.yml
+  tags:
+    - section5
+    - Access, Authentication and Authorization
 
-  - include: section_06.yml
-    tags:
-      - section6
-      - System Maintenance
+- include: section_06.yml
+  tags:
+    - section6
+    - System Maintenance

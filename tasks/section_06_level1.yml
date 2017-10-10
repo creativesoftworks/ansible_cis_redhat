@@ -15,310 +15,310 @@
 #   limitations under the License.
 #
 
-  - name: 6.1.2 Ensure permissions on /etc/passwd are configured (Scored)
-    file: >
-      path=/etc/passwd
-      group=root
-      owner=root
-      mode=0644
-    tags:
-      - scored
-      - section6.1
-      - section6.1.2
+- name: 6.1.2 Ensure permissions on /etc/passwd are configured (Scored)
+  file: >
+    path=/etc/passwd
+    group=root
+    owner=root
+    mode=0644
+  tags:
+    - scored
+    - section6.1
+    - section6.1.2
 
-  - name: 6.1.3 Ensure permissions on /etc/shadow are configured (Scored)
-    file: >
-      path=/etc/shadow
-      group=root
-      owner=root
-      mode=0000
-    tags:
-      - scored
-      - section6.1
-      - section6.1.3
+- name: 6.1.3 Ensure permissions on /etc/shadow are configured (Scored)
+  file: >
+    path=/etc/shadow
+    group=root
+    owner=root
+    mode=0000
+  tags:
+    - scored
+    - section6.1
+    - section6.1.3
 
-  - name: 6.1.4 Ensure permissions on /etc/group are configured (Scored)
-    file: >
-      path=/etc/group
-      group=root
-      owner=root
-      mode=0644
-    tags:
-      - scored
-      - section6.1
-      - section6.1.4
+- name: 6.1.4 Ensure permissions on /etc/group are configured (Scored)
+  file: >
+    path=/etc/group
+    group=root
+    owner=root
+    mode=0644
+  tags:
+    - scored
+    - section6.1
+    - section6.1.4
 
-  - name: 6.1.5 Ensure permissions on /etc/gshadow are configured (Scored)
-    file: >
-      path=/etc/gshadow
-      group=root
-      owner=root
-      mode=0000
-    tags:
-      - scored
-      - section6.1
-      - section6.1.4
+- name: 6.1.5 Ensure permissions on /etc/gshadow are configured (Scored)
+  file: >
+    path=/etc/gshadow
+    group=root
+    owner=root
+    mode=0000
+  tags:
+    - scored
+    - section6.1
+    - section6.1.4
 
-  - name: 6.1.6 Ensure permissions on /etc/passwd- are configured (Scored)
-    file: >
-      path=/etc/passwd-
-      owner=root
-      group=root
-      mode=0600
-    tags:
-      - scored
-      - section6.1
-      - section6.1.6
+- name: 6.1.6 Ensure permissions on /etc/passwd- are configured (Scored)
+  file: >
+    path=/etc/passwd-
+    owner=root
+    group=root
+    mode=0600
+  tags:
+    - scored
+    - section6.1
+    - section6.1.6
 
-  - name: 6.1.7 Ensure permissions on /etc/shadow- are configured (Scored)
-    file: >
-      path=/etc/shadow-
-      owner=root
-      group=root
-      mode=0600
-    tags:
-      - scored
-      - section6.1
-      - section6.1.7
+- name: 6.1.7 Ensure permissions on /etc/shadow- are configured (Scored)
+  file: >
+    path=/etc/shadow-
+    owner=root
+    group=root
+    mode=0600
+  tags:
+    - scored
+    - section6.1
+    - section6.1.7
 
-  - name: 6.1.8 Ensure permissions on /etc/group- are configured (Scored)
-    file: >
-      path=/etc/group-
-      owner=root
-      group=root
-      mode=0600
-    tags:
-      - scored
-      - section6.1
-      - section6.1.8
+- name: 6.1.8 Ensure permissions on /etc/group- are configured (Scored)
+  file: >
+    path=/etc/group-
+    owner=root
+    group=root
+    mode=0600
+  tags:
+    - scored
+    - section6.1
+    - section6.1.8
 
-  - name: 6.1.9 Ensure permissions on /etc/gshadow- are configured (Scored)
-    file: >
-      path=/etc/gshadow-
-      owner=root
-      group=root
-      mode=0600
-    tags:
-      - scored
-      - section6.1
-      - section6.1.9
+- name: 6.1.9 Ensure permissions on /etc/gshadow- are configured (Scored)
+  file: >
+    path=/etc/gshadow-
+    owner=root
+    group=root
+    mode=0600
+  tags:
+    - scored
+    - section6.1
+    - section6.1.9
 
-  - name: 6.1.10 Ensure no world writable files exist (Scored)
-    shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f -perm -0002"
-    when: verify_find
-    tags:
-      - scored
-      - section6.1
-      - section6.1.10
+- name: 6.1.10 Ensure no world writable files exist (Scored)
+  shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f -perm -0002"
+  when: verify_find
+  tags:
+    - scored
+    - section6.1
+    - section6.1.10
 
-  - name: 6.1.11 Ensure no unowned files or directories exist (Scored)
-    shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser -ls"
-    when: verify_find
-    tags:
-      - scored
-      - section6.1
-      - section6.1.11
+- name: 6.1.11 Ensure no unowned files or directories exist (Scored)
+  shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser -ls"
+  when: verify_find
+  tags:
+    - scored
+    - section6.1
+    - section6.1.11
 
-  - name: 6.1.12 Ensure no ungrouped files or directories exist (Scored)
-    shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup -ls"
-    when: verify_find
-    tags:
-      - scored
-      - section6.1
-      - section6.1.12
+- name: 6.1.12 Ensure no ungrouped files or directories exist (Scored)
+  shell: "df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup -ls"
+  when: verify_find
+  tags:
+    - scored
+    - section6.1
+    - section6.1.12
 
-  - name: 6.1.13 Audit SUID executables (Not Scored)
-    shell: '/bin/rpm -V `/bin/rpm -qf /usr/bin/sudo`'
-    register: suid
-    when: verify_rpm
-    tags:
-      - notscored
-      - section6.1
-      - section6.1.13
+- name: 6.1.13 Audit SUID executables (Not Scored)
+  shell: '/bin/rpm -V `/bin/rpm -qf /usr/bin/sudo`'
+  register: suid
+  when: verify_rpm
+  tags:
+    - notscored
+    - section6.1
+    - section6.1.13
 
-  - name: 6.1.14 Audit SGID executables (Not Scored)
-    shell: '/bin/rpm -V `/bin/rpm -qf /usr/bin/sudo`'
-    register: sgid
-    when: verify_rpm
-    tags:
-      - notscored
-      - section6.1
-      - section6.1.14
+- name: 6.1.14 Audit SGID executables (Not Scored)
+  shell: '/bin/rpm -V `/bin/rpm -qf /usr/bin/sudo`'
+  register: sgid
+  when: verify_rpm
+  tags:
+    - notscored
+    - section6.1
+    - section6.1.14
 
 #   Section 6.2 User and Group Settings
 
-  - name: 6.2.1 Ensure password fields are not empty (Scored)
-    shell: /bin/cat /etc/shadow | /bin/awk -F':' '($2 == "" ) { print $1 " does not have a password "}'
-    register: result6_2_1
-    changed_when: "result6_2_1.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - section6.2
-      - section6.2.1
+- name: 6.2.1 Ensure password fields are not empty (Scored)
+  shell: /bin/cat /etc/shadow | /bin/awk -F':' '($2 == "" ) { print $1 " does not have a password "}'
+  register: result6_2_1
+  changed_when: "result6_2_1.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - section6.2
+    - section6.2.1
 
-  - name: 6.2.2 Ensure no legacy "+" entries exist in /etc/passwd (Scored)
-    shell: /bin/grep '^+:' /etc/passwd
-    register: result6_2_2
-    failed_when: result6_2_2.rc == 0
-    changed_when: result6_2_2.rc == 0
-    always_run: yes
-    ignore_errors: yes
-    tags:
-      - scored
-      - section6.2
-      - section6.2.2
+- name: 6.2.2 Ensure no legacy "+" entries exist in /etc/passwd (Scored)
+  shell: /bin/grep '^+:' /etc/passwd
+  register: result6_2_2
+  failed_when: result6_2_2.rc == 0
+  changed_when: result6_2_2.rc == 0
+  always_run: yes
+  ignore_errors: yes
+  tags:
+    - scored
+    - section6.2
+    - section6.2.2
 
-  - name: 6.2.3 Ensure no legacy "+" entries exist in /etc/shadow (Scored)
-    shell: /bin/grep '^+:' /etc/shadow
-    register: result6_2_3
-    failed_when: result6_2_3.rc == 0
-    changed_when: result6_2_3.rc == 0
-    always_run: yes
-    ignore_errors: yes
-    tags:
-      - scored
-      - section6.2
-      - section6.2.3
+- name: 6.2.3 Ensure no legacy "+" entries exist in /etc/shadow (Scored)
+  shell: /bin/grep '^+:' /etc/shadow
+  register: result6_2_3
+  failed_when: result6_2_3.rc == 0
+  changed_when: result6_2_3.rc == 0
+  always_run: yes
+  ignore_errors: yes
+  tags:
+    - scored
+    - section6.2
+    - section6.2.3
 
-  - name: 6.2.4 Ensure no legacy "+" entries exist in /etc/group (Scored)
-    shell: /bin/grep '^+:' /etc/group
-    register: result6_2_4
-    failed_when: result6_2_4.rc == 0
-    changed_when: result6_2_4.rc == 0
-    always_run: yes
-    ignore_errors: yes
-    tags:
-      - scored
-      - section6.2
-      - section6.2.4
+- name: 6.2.4 Ensure no legacy "+" entries exist in /etc/group (Scored)
+  shell: /bin/grep '^+:' /etc/group
+  register: result6_2_4
+  failed_when: result6_2_4.rc == 0
+  changed_when: result6_2_4.rc == 0
+  always_run: yes
+  ignore_errors: yes
+  tags:
+    - scored
+    - section6.2
+    - section6.2.4
 
-  - name: 6.2.5 Ensure root is the only UID 0 account (Scored)
-    shell: /bin/awk -F':' '($3 == 0) { print $1 }' /etc/passwd | grep -qx 'root'
-    register: result6_2_5
-    failed_when: result6_2_5.rc != 0
-    changed_when: result6_2_5.rc != 0
-    always_run: yes
-    ignore_errors: yes
-    tags:
-      - scored
-      - section6.2
-      - section6.2.5
+- name: 6.2.5 Ensure root is the only UID 0 account (Scored)
+  shell: /bin/awk -F':' '($3 == 0) { print $1 }' /etc/passwd | grep -qx 'root'
+  register: result6_2_5
+  failed_when: result6_2_5.rc != 0
+  changed_when: result6_2_5.rc != 0
+  always_run: yes
+  ignore_errors: yes
+  tags:
+    - scored
+    - section6.2
+    - section6.2.5
 
-  - name: 6.2.6 Ensure root PATH Integrity (Scored)
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.6
+- name: 6.2.6 Ensure root PATH Integrity (Scored)
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.6
 
-  - name: 6.2.7 Ensure all users' home directories exist (Scored)
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.7
+- name: 6.2.7 Ensure all users' home directories exist (Scored)
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.7
 
-  - name: 6.2.8 Ensure users' home directories permissions are 750 or more restrictive (Scored)
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.8
+- name: 6.2.8 Ensure users' home directories permissions are 750 or more restrictive (Scored)
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.8
 
-  - name: 6.2.9 Ensure users own their home directories (Scored)
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.9
+- name: 6.2.9 Ensure users own their home directories (Scored)
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.9
 
-  - name: 6.2.10 Ensure users' dot files are not group or world writable (Scored)
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.10
+- name: 6.2.10 Ensure users' dot files are not group or world writable (Scored)
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.10
 
-  - name: 6.2.11 Ensure no users have .forward files (Scored)
-    shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.forward && -s $h/.forward ]]; then echo $h; fi ; done
-    register: result6_2_11
-    changed_when: "result6_2_11.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - check-only
-      - section6.2
-      - section6.2.11
+- name: 6.2.11 Ensure no users have .forward files (Scored)
+  shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.forward && -s $h/.forward ]]; then echo $h; fi ; done
+  register: result6_2_11
+  changed_when: "result6_2_11.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - check-only
+    - section6.2
+    - section6.2.11
 
-  - name: 6.2.12 Ensure no users have .netrc files (Scored)
-    shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.netrc && -s $h/.netrc ]]; then echo $h; fi ; done
-    register: result6_2_12
-    changed_when: "result6_2_12.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - check-only
-      - section6.2
-      - section6.2.12
+- name: 6.2.12 Ensure no users have .netrc files (Scored)
+  shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.netrc && -s $h/.netrc ]]; then echo $h; fi ; done
+  register: result6_2_12
+  changed_when: "result6_2_12.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - check-only
+    - section6.2
+    - section6.2.12
 
-  - name: 6.2.13 Ensure users' .netrc Files are not group or world accessible (Scored) #need to build out
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.13
+- name: 6.2.13 Ensure users' .netrc Files are not group or world accessible (Scored) #need to build out
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.13
 
-  - name: 6.2.14 Ensure no users have .rhosts files (Scored) #need to build out
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section6.2
-      - section6.2.13
+- name: 6.2.14 Ensure no users have .rhosts files (Scored) #need to build out
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section6.2
+    - section6.2.13
 
-  - name: 6.2.15 Ensure all groups in /etc/passwd exist in /etc/group (Scored) #need to build out
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section9.2
-      - section9.2.11
+- name: 6.2.15 Ensure all groups in /etc/passwd exist in /etc/group (Scored) #need to build out
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section9.2
+    - section9.2.11
 
-  - name: 6.2.16 Ensure no duplicate UIDs exist (Scored) #need to build out
-    debug: msg="*** To do later"
-    tags:
-      - scored
-      - section9.2
-      - section9.2.14
+- name: 6.2.16 Ensure no duplicate UIDs exist (Scored) #need to build out
+  debug: msg="*** To do later"
+  tags:
+    - scored
+    - section9.2
+    - section9.2.14
 
-  - name: 6.2.17 Ensure no duplicate GIDs exist (Scored)
-    shell: for dupeID in  $(cut -f3 -d":" /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'); do awk -F':' -v dupeid=$dupeID '$3 == dupeid {print $1}' /etc/group   ; done
-    register: result6_2_17
-    changed_when: "result6_2_17.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - check-only
-      - section6.2
-      - section6.2.17
+- name: 6.2.17 Ensure no duplicate GIDs exist (Scored)
+  shell: for dupeID in  $(cut -f3 -d":" /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'); do awk -F':' -v dupeid=$dupeID '$3 == dupeid {print $1}' /etc/group   ; done
+  register: result6_2_17
+  changed_when: "result6_2_17.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - check-only
+    - section6.2
+    - section6.2.17
 
-  - name: 6.2.18 Ensure no duplicate user names exist (Scored)
-    shell: cut -f1 -d':' /etc/passwd | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
-    register: result6_2_18
-    changed_when: "result6_2_18.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - check-only
-      - section6.2
-      - section6.2.18
+- name: 6.2.18 Ensure no duplicate user names exist (Scored)
+  shell: cut -f1 -d':' /etc/passwd | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
+  register: result6_2_18
+  changed_when: "result6_2_18.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - check-only
+    - section6.2
+    - section6.2.18
 
-  - name: 6.2.19 Ensure no duplicate group names exist (Scored)
-    shell: cut -f1 -d':' /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
-    register: result6_2_19
-    changed_when: "result6_2_19.stdout"
-    always_run: yes
-    tags:
-      - scored
-      - check-only
-      - section6.2
-      - section6.2.19
+- name: 6.2.19 Ensure no duplicate group names exist (Scored)
+  shell: cut -f1 -d':' /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
+  register: result6_2_19
+  changed_when: "result6_2_19.stdout"
+  always_run: yes
+  tags:
+    - scored
+    - check-only
+    - section6.2
+    - section6.2.19

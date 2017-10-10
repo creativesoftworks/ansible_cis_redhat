@@ -87,3 +87,6 @@ verify_find: no
 verify_rpm: no
 
 disable_udf_filesystem: yes
+
+# used in motd
+company_name: "ACME"
