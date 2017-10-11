@@ -537,6 +537,7 @@
     dest=/etc/profile.d/cis.sh
     line="umask 027"
   ignore_errors: true
+  when: set_umask
   tags:
     - scored
     - section5.4

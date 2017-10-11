@@ -90,3 +90,5 @@ disable_udf_filesystem: yes
 
 # used in motd
 company_name: "ACME"
+
+set_umask: yes
