@@ -8,12 +8,8 @@ This role can be used to audit or remediate a host against the Center for Intern
 OS compatibility
 ----------------
 
-* RHEL 6
-* CentOS 6
-
-Not verified (but *might* work):
-* RHEL 7
-* Centos 7
+* RHEL 6 & 7
+* CentOS 6 & 7
 
 Requirements
 ------------
@@ -57,5 +53,4 @@ Apache License, Version 2.0
 Author Information
 ------------------
 
-Ricardo Oliveira
-Based on the work of Team VVL Systems and Major Hayden
+Ricardo Oliveira, based on the work of Team VVL Systems and Major Hayden
