@@ -10,5 +10,11 @@ galaxy_info:
       versions:
         - 6
         - 7
-  categories: system
+  galaxy_tags:
+    - system
+    - security
+    - cis
+    - hardening
+    - rhel
+    - centos
 dependencies: []
