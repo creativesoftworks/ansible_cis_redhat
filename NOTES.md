@@ -16,7 +16,7 @@ Existing mounts will be modified with benchmark options.  Mount points are not c
 ###### 1.1.{18,19,20}
 Skipped: Not relevent to virtual machines. If physical machines will be used then this will need to be enabled.
 
-###### 1.1.{21,22}
+###### 1.1.{21}
 Skipped: May be too destructive on systems. Implement manually if required.
 
 ##### 1.1.2
