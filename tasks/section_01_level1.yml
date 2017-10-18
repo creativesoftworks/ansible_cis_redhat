@@ -231,7 +231,9 @@
     - section1.1.21
 
 - name: 1.1.22 Disable Automounting (Scored)
-  debug: msg="*** May be too destructive -- see notes"
+  service:
+    name: autofs
+    enabled: no
   tags:
     - scored
     - section1.1
@@ -349,7 +351,12 @@
     - section1.4.2
 
 - name: 1.4.3 Ensure authentication required for single user mode (Scored)
-  debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
+  lineinfile: >
+    dest=/etc/sysconfig/init
+    regexp=^SINGLE=
+    line=SINGLE=/sbin/sulogin
+  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+        (ansible_distribution == "RedHat" and ansible_distribution_major_version == "6")
   tags:
     - scored
     - section1.4
