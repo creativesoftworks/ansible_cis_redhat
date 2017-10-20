@@ -3,6 +3,9 @@
 language: ruby
 cache: bundler
 
+install:
+  - bundle install
+
 before_script:
   - mkdir -p ~/.ssh
   - echo "$PRIVATE_SSH_KEY" > ~/.ssh/id_rsa
