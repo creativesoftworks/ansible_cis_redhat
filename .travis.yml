@@ -7,9 +7,8 @@ install:
   - bundle install
 
 before_script:
-  - mkdir -p ~/.ssh
-  - echo "$PRIVATE_SSH_KEY" > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
+  - echo "$PRIVATE_SSH_KEY" > ssh_key
+  - chmod 600 ssh_key
 
 script:
   - kitchen test
