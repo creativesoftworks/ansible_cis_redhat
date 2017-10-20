@@ -8,8 +8,7 @@ install:
 
 before_script:
   - echo "$PRIVATE_SSH_KEY" > ./ssh_key
-  - cat ./ssh_key
   - chmod 600 ./ssh_key
 
 script:
-  - kitchen test
+  - kitchen test -l debug
