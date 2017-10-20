@@ -25,11 +25,21 @@ platforms:
       image_search:
         owner-id: 679593333241
         name: CentOS Linux 6*
-#  - name: centos-7
-#    driver:
-#      image_search:
-#        owner-id: 679593333241
-#        name: CentOS Linux 7*
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 8
+            delete_on_termination: true
+  - name: centos-7
+    driver:
+      image_search:
+        owner-id: 679593333241
+        name: CentOS Linux 7*
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 8
+            delete_on_termination: true
 
 suites:
   - name: default
