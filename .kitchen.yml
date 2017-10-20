@@ -28,7 +28,6 @@ platforms:
       block_device_mappings:
         - device_name: /dev/sda1
           ebs:
-            volume_size: 8
             delete_on_termination: true
   - name: centos-7
     driver:
@@ -38,7 +37,6 @@ platforms:
       block_device_mappings:
         - device_name: /dev/sda1
           ebs:
-            volume_size: 8
             delete_on_termination: true
 
 suites:
