@@ -83,6 +83,9 @@
     backrefs=yes
     regexp="(^\s*kernel.*)$(?<!audit=1)"
     line="\1 audit=1"
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "6"
   tags:
     - scored
     - section4.1
