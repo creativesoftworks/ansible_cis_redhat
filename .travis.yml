@@ -7,7 +7,9 @@ install:
   - bundle install
 
 before_script:
-  - echo "$PRIVATE_SSH_KEY" > ./ssh_key
+  - echo "-----BEGIN RSA PRIVATE KEY-----" > ./ssh_key
+  - echo "$PRIVATE_SSH_KEY" >> ./ssh_key
+  - echo "-----END RSA PRIVATE KEY-----" >> ./ssh_key
   - chmod 600 ./ssh_key
   - eval "$(ssh-agent -s)"
   - ssh-add ./ssh_key
