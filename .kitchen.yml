@@ -7,7 +7,7 @@ driver:
 
 transport:
   name: rsync
-  ssh_key: <%= ENV['LOCAL_SSH_KEY'] || ~/.ssh/id_rsa %>
+  ssh_key: <%= ENV['LOCAL_SSH_KEY'] || '~/.ssh/id_rsa' %>
 
 provisioner:
   name: ansible_playbook
@@ -25,11 +25,11 @@ platforms:
       image_search:
         owner-id: 679593333241
         name: CentOS Linux 6*
-  - name: centos-7
-    driver:
-      image_search:
-        owner-id: 679593333241
-        name: CentOS Linux 7*
+#  - name: centos-7
+#    driver:
+#      image_search:
+#        owner-id: 679593333241
+#        name: CentOS Linux 7*
 
 suites:
   - name: default
