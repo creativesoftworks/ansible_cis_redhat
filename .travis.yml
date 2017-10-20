@@ -1,0 +1,16 @@
+---
+
+language: ruby
+cache: bundler
+
+install:
+  - bundle install
+
+before_script:
+  - echo "-----BEGIN RSA PRIVATE KEY-----" > ./ssh_key
+  - echo -e "$PRIVATE_SSH_KEY" >> ./ssh_key
+  - echo "-----END RSA PRIVATE KEY-----" >> ./ssh_key
+  - chmod 600 ./ssh_key
+
+script:
+  - kitchen test

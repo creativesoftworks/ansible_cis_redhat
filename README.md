@@ -44,6 +44,14 @@ The role is thoroughly tagged so that you can run certain sections or certain le
 
     # Apply changes only from items in section 4, 5, and 6
     ansible-playbook -i hosts playbook.yml -t section4,section5,section6
+    
+Testing
+-------
+
+You'll need credentials to an AWS account, ruby and bundler (`gem install bundler`).
+- Set up the environment variables defined in envrc-template, or copy its contents to a file called .envrc and use [direnv](https://github.com/direnv/direnv).
+- Install the dependencies dependencies: `bundle install`
+- Run `kitchen test`
 
 License
 -------

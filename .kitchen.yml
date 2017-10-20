@@ -1,0 +1,43 @@
+---
+
+driver:
+  name: ec2
+  region: eu-west-1
+  instance_type: t2.micro
+
+transport:
+  name: rsync
+  ssh_key: <%= ENV['LOCAL_SSH_KEY'] || '~/.ssh/id_rsa' %>
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  ansible_diff: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-6
+    driver:
+      image_search:
+        owner-id: 679593333241
+        name: CentOS Linux 6*
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            delete_on_termination: true
+  - name: centos-7
+    driver:
+      image_search:
+        owner-id: 679593333241
+        name: CentOS Linux 7*
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            delete_on_termination: true
+
+suites:
+  - name: default
