@@ -8,9 +8,8 @@ install:
 
 before_script:
   - mkdir -p ~/.ssh
-  - echo -e "$PRIVATE_SSH_KEY" > test.txt
-  - cat ./test.txt
-  - chmod 600 ./test.txt
+  - echo "$PRIVATE_SSH_KEY" > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
 
 script:
   - kitchen test
