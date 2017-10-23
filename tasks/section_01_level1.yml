@@ -219,7 +219,10 @@
   service:
     name: autofs
     enabled: no
-  when: disable_automounting
+  when:
+    - disable_automounting
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "6"
   tags:
     - scored
     - section1.1
