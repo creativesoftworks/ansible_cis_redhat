@@ -1,7 +1,7 @@
 CIS
 =========
 [![Build Status](https://travis-ci.org/creativesoftworks/ansible_cis_redhat.svg?branch=master)](https://travis-ci.org/creativesoftworks/ansible_cis_redhat)
-[Ansible Galaxy](https://galaxy.ansible.com/creativesoftworks/cis_redhat/)
+[![Ansible Galaxy](https://img.shields.io/ansible/role/21349.svg)](https://galaxy.ansible.com/creativesoftworks/cis_redhat/)
 
 This role can be used to audit or remediate a host against the Center for Internet Security (CIS) security benchmarks.
 
