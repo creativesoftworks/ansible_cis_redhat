@@ -215,17 +215,11 @@
     - section1.1
     - section1.1.21
 
-- name: check if autofs is installed
-  yum:
-    list: autofs
-  register: autofs_is_installed
-  changed_when: false
-
 - name: 1.1.22 Disable Automounting (Scored)
   service:
     name: autofs
     enabled: no
-  when: autofs_is_installed.results[0].yumstate == "installed"
+  when: disable_automounting
   tags:
     - scored
     - section1.1

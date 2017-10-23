@@ -92,3 +92,5 @@ disable_udf_filesystem: yes
 company_name: "ACME"
 
 set_umask: yes
+
+disable_automounting: yes
