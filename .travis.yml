@@ -15,5 +15,8 @@ before_script:
 script:
   - kitchen test
 
+after_script:
+  - kitchen destroy
+
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
