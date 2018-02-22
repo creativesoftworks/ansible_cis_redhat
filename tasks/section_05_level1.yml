@@ -488,7 +488,22 @@
     - scored
     - section5.4
     - section5.4.1
-    - section5.4.1.3
+    - section5.4.1.4
+
+- name: 5.4.1.4 Ensure inactive password lock is 30 days or less (Scored)
+  lineinfile:
+    state: present
+    dest: /etc/default/useradd
+    regexp: ^\s*INACTIVE\s*=\d*$
+    line: "INACTIVE={{ lock_inactive_days }}"
+  when:
+    - lock_inactive
+    - lock_inactive_days is defined
+  tags:
+    - scored
+    - section5.4
+    - section5.4.1
+    - section5.4.1.4
 
 - name: 5.4.2 Ensure system accounts are non-login (Scored) #need to verify accuracy. I think this script disables all system accounts
   shell: awk -F':' '($3<500 && $1!="root" && $1!="sync" && $1!="shutdown" && $1!="sync" && $1!="shutdown" && $1!="halt" && $7!="/sbin/nologin") { print $1 }' /etc/passwd

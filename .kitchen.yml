@@ -6,7 +6,7 @@ driver:
   instance_type: t2.micro
 
 transport:
-  name: rsync
+  name: ssh
   ssh_key: <%= ENV['LOCAL_SSH_KEY'] || '~/.ssh/id_rsa' %>
 
 provisioner:
@@ -41,3 +41,4 @@ platforms:
 
 suites:
   - name: default
+  - name: lock-inactive
