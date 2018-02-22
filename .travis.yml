@@ -13,7 +13,7 @@ before_script:
   - chmod 600 ./ssh_key
 
 script:
-  - kitchen test
+  - kitchen test -c
 
 after_script:
   - kitchen destroy

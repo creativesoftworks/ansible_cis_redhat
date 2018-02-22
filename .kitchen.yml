@@ -6,7 +6,7 @@ driver:
   instance_type: t2.micro
 
 transport:
-  name: ssh
+  name: rsync
   ssh_key: <%= ENV['LOCAL_SSH_KEY'] || '~/.ssh/id_rsa' %>
 
 provisioner:
