@@ -41,3 +41,4 @@ platforms:
 
 suites:
   - name: default
+  - name: lock-inactive

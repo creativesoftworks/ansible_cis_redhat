@@ -36,12 +36,13 @@ samba: no
 snmp: no
 squid: no
 
-# CIS 7.5 says that users who are inactive for over 35 days must have their
+# CIS 5.4.1.4 says that users who are inactive for over 30 days must have their
 # accounts disabled. This could cause issues in some environments.
 # Options:
-#   yes: disable accounts inactive > 35 days per CIS requirements
+#   yes: disable accounts inactive > {{ lock inactive_days }} days (defaults to 30, as per CIS benchmark)
 #   no: don't adjust inactive account settings
 lock_inactive: no
+lock_inactive_days: 30
 
 # Enable iptables (CIS 4.7)
 # You should check to see that your current iptables configuration in

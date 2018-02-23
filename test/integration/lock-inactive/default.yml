@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  become: yes
+  vars:
+    lock_inactive: yes
+    lock_inactive_days: 7
+  roles:
+    - role: ansible_cis_redhat
