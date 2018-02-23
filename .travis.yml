@@ -12,8 +12,16 @@ before_script:
   - echo "-----END RSA PRIVATE KEY-----" >> ./ssh_key
   - chmod 600 ./ssh_key
 
+env:
+  - INSTANCE_NAME=default-centos-6
+  - INSTANCE_NAME=default-centos-7
+  - INSTANCE_NAME=lock-inactive-centos-6
+  - INSTANCE_NAME=lock-inactive-centos-7
+  - INSTANCE_NAME=disable-ipv6-centos-6
+  - INSTANCE_NAME=disable-ipv6-centos-7
+
 script:
-  - kitchen test -d always
+  - "kitchen test -d always $INSTANCE_NAME"
 
 after_script:
   - kitchen destroy

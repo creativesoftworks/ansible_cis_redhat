@@ -42,3 +42,4 @@ platforms:
 suites:
   - name: default
   - name: lock-inactive
+  - name: disable-ipv6

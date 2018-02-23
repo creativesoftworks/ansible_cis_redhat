@@ -394,7 +394,10 @@
     name=ip6tables
     enabled=no
     state=stopped
-  when: disable_ipv6
+  when:
+    - disable_ipv6
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version == "6"
   tags:
     - notscored
     - section3.3

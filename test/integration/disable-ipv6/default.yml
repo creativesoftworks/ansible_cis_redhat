@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost
+  become: yes
+  vars:
+    disable_ipv6: yes
+  roles:
+    - role: ansible_cis_redhat
