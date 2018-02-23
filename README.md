@@ -13,6 +13,11 @@ OS compatibility
 * RHEL 6 & 7
 * CentOS 6 & 7
 
+Benchmark version
+-----------------
+
+This role implements benchmark v2.0.2
+
 Requirements
 ------------
 
