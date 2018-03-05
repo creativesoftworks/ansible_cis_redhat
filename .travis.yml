@@ -13,8 +13,8 @@ before_script:
   - chmod 600 ./ssh_key
 
 env:
-  - INSTANCE_NAME=default-centos-6
-  - INSTANCE_NAME=default-centos-7
+  - INSTANCE_NAME=centos-6-defaults-centos-6
+  - INSTANCE_NAME=centos-7-defaults-centos-7
   - INSTANCE_NAME=lock-inactive-centos-6
   - INSTANCE_NAME=lock-inactive-centos-7
   - INSTANCE_NAME=disable-ipv6-centos-6
