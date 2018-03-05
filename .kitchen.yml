@@ -40,6 +40,11 @@ platforms:
             delete_on_termination: true
 
 suites:
-  - name: default
+  - name: centos-6-defaults
+    excludes:
+      - centos-7
+  - name: centos-7-defaults
+    excludes:
+      - centos-6
   - name: lock-inactive
   - name: disable-ipv6

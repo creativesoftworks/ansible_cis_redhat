@@ -365,13 +365,13 @@
 #   Section 5.3 Configure PAM
 
 - name: 5.3.1 - 5.3.4 Configure PAM (Scored)
-  copy: >
-    src=etc/pam.d/rhel-6/system-auth
-    dest=/etc/pam.d/system-auth
-    owner=root
-    group=root
-    mode=0644
-  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+  template:
+    src: etc/pam.d/rhel-6/system-auth-ac.j2
+    dest: /etc/pam.d/system-auth-ac
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution_major_version == "6"
   tags:
     - scored
     - section5.3
@@ -381,13 +381,13 @@
     - section5.3.4
 
 - name: 5.3.1 - 5.3.4 Configure PAM (Scored)
-  copy: >
-    src=etc/pam.d/rhel-6/password-auth
-    dest=/etc/pam.d/password-auth
-    owner=root
-    group=root
-    mode=0644
-  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6")
+  template:
+    src: etc/pam.d/rhel-6/password-auth-ac.j2
+    dest: /etc/pam.d/password-auth-ac
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution_major_version == "6"
   tags:
     - scored
     - section5.3
@@ -404,13 +404,12 @@
     regexp={{ item.regexp }}
     line={{ item.line }}
   with_items:
-    - { regexp: '^# minlen\s+', line: 'minlen = 14' }
-    - { regexp: '^# dcredit\s+', line: 'dcredit = -1' }
-    - { regexp: '^# ucredit\s+', line: 'ucredit = -1' }
-    - { regexp: '^# ocredit\s+', line: 'ocredit = -1' }
-    - { regexp: '^# lcredit\s+', line: 'lcredit = -1' }
-  when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "7") or
-        (ansible_distribution == "RedHat" and ansible_distribution_major_version == "7")
+    - { regexp: '^# minlen\s+', line: "minlen = {{ pam.password_quality.minlen }}" }
+    - { regexp: '^# dcredit\s+', line: "dcredit = {{ pam.password_quality.dcredit }}" }
+    - { regexp: '^# ucredit\s+', line: "ucredit = {{ pam.password_quality.ucredit }}" }
+    - { regexp: '^# ocredit\s+', line: "ocredit = {{ pam.password_quality.ocredit }}" }
+    - { regexp: '^# lcredit\s+', line: "lcredit = {{ pam.password_quality.lcredit }}" }
+  when: ansible_distribution_major_version == "7"
   tags:
     - scored
     - section5.3

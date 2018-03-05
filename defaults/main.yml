@@ -95,3 +95,12 @@ company_name: "ACME"
 set_umask: yes
 
 disable_automounting: yes
+
+pam:
+  password_quality:
+    retry: 3
+    minlen: 14
+    dcredit: -1
+    ucredit: -1
+    ocredit: -1
+    lcredit: -1
