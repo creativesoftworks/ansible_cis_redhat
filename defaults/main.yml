@@ -98,9 +98,11 @@ disable_automounting: yes
 
 pam:
   password_quality:
-    retry: 3
-    minlen: 14
-    dcredit: -1
-    ucredit: -1
-    ocredit: -1
-    lcredit: -1
+    passminlen: 14 # minimum length of a password
+    passminclass: 3 # minimum number of character classes in a password
+    passmaxrepeat: 0 # maximum number of same consecutive characters in a password. The check is disabled if the value is 0.
+    passmaxclassrepeat: 0 # maximum number of consecutive characters of same class in a password. The check is disabled if the value is 0.
+    reqlower: yes # require at least one lowercase character in a password
+    requpper: yes # require at least one uppercase character in a password
+    reqdigit: yes # require at least one digit in a password
+    reqother: yes # require at least one special character in a password

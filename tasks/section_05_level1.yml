@@ -396,20 +396,33 @@
     - section5.3.3
     - section5.3.4
 
-- name: 5.3.1 Ensure password creation requirements are configured (Scored)
-  lineinfile: >
-    state=present
-    dest=/etc/security/pwquality.conf
-    backrefs=yes
-    regexp={{ item.regexp }}
-    line={{ item.line }}
-  with_items:
-    - { regexp: '^# minlen\s+', line: "minlen = {{ pam.password_quality.minlen }}" }
-    - { regexp: '^# dcredit\s+', line: "dcredit = {{ pam.password_quality.dcredit }}" }
-    - { regexp: '^# ucredit\s+', line: "ucredit = {{ pam.password_quality.ucredit }}" }
-    - { regexp: '^# ocredit\s+', line: "ocredit = {{ pam.password_quality.ocredit }}" }
-    - { regexp: '^# lcredit\s+', line: "lcredit = {{ pam.password_quality.lcredit }}" }
+- name: Gather pwquality configuration
+  command: "cat /etc/security/pwquality.conf"
+  register: pwquality_config
+  changed_when: no
   when: ansible_distribution_major_version == "7"
+
+- name: 5.3.1 Ensure password creation requirements are configured (Scored)
+  command: "authconfig --update --{{ item }}"
+  when:
+    - ansible_distribution_major_version == "7"
+    - ( "minlen = %s" % pam.password_quality.passminlen not in pwquality_config.stdout ) or
+      ( "dcredit = %s" % pam.password_quality.reqdigit|ternary('-1', '0') not in pwquality_config.stdout ) or
+      ( "ucredit = %s" % pam.password_quality.requpper|ternary('-1', '0') not in pwquality_config.stdout ) or
+      ( "lcredit = %s" % pam.password_quality.reqlower|ternary('-1', '0') not in pwquality_config.stdout ) or
+      ( "ocredit = %s" % pam.password_quality.reqother|ternary('-1', '0') not in pwquality_config.stdout ) or
+      ( "minclass = %s" % pam.password_quality.passminclass not in pwquality_config.stdout ) or
+      ( "maxrepeat = %s" % pam.password_quality.passmaxrepeat not in pwquality_config.stdout ) or
+      ( "maxclassrepeat = %s" % pam.password_quality.passmaxclassrepeat not in pwquality_config.stdout )
+  with_items:
+    - "passminlen={{ pam.password_quality.passminlen }}"
+    - "{{ pam.password_quality.reqdigit | ternary('enablereqdigit', 'disablereqdigit') }}"
+    - "{{ pam.password_quality.requpper | ternary('enablerequpper', 'disablerequpper') }}"
+    - "{{ pam.password_quality.reqlower | ternary('enablereqlower', 'disablereqlower') }}"
+    - "{{ pam.password_quality.reqother | ternary('enablereqother', 'disablereqother') }}"
+    - "passminclass={{ pam.password_quality.passminclass }}"
+    - "passmaxrepeat={{ pam.password_quality.passmaxrepeat }}"
+    - "passmaxclassrepeat={{ pam.password_quality.passmaxclassrepeat }}"
   tags:
     - scored
     - section5.3
