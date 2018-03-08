@@ -442,13 +442,6 @@
     - section5.3
     - section5.3.3
 
-- name: 5.3.4 Ensure password hashing algorithm is SHA-512 (Scored)
-  debug: msg="*** Manually update password-auth and system-auth."
-  tags:
-    - scored
-    - section5.3
-    - section5.3.4
-
 #   Section 5.4 User Accounts and Environment
 
 - name: 5.4.1.1 Ensure password expiration is 90 days or less (Scored)
