@@ -8,3 +8,11 @@ describe parse_config_file('/etc/security/pwquality.conf') do
   its('maxrepeat') { should eq '0' }
   its('maxclassrepeat') { should eq '0' }
 end
+
+describe file('/etc/pam.d/password-auth') do
+  its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+end
+
+describe file('/etc/pam.d/system-auth') do
+  its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+end

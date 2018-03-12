@@ -1,9 +1,11 @@
 describe file('/etc/pam.d/password-auth') do
-  its('content') { should include('password    requisite     pam_cracklib.so try_first_pass retry=3 minlen=14 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 minclass=3 maxrepeat=0 maxclassrepeat=0') }
-  its('content') { should include('password    sufficient    pam_unix.so sha512') }
+  its('content') { should match /password\s+requisite\s+pam_cracklib.so.*retry=3\sminlen=14\sdcredit=-1\sucredit=-1\socredit=-1\slcredit=-1\sminclass=3\smaxrepeat=0\smaxclassrepeat=0/ }
+  its('content') { should match /password\s+sufficient\s+pam_unix.so\ssha512/ }
+  its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
 end
 
 describe file('/etc/pam.d/system-auth') do
-  its('content') { should include('password    required      pam_cracklib.so try_first_pass retry=3 minlen=14 dcredit=-1 ucredit=-1 ocredit=-1 lcredit=-1 minclass=3 maxrepeat=0 maxclassrepeat=0') }
-  its('content') { should include('password    sufficient    pam_unix.so sha512') }
+  its('content') { should match /password\s+required\s+pam_cracklib.so.*retry=3\sminlen=14\sdcredit=-1\sucredit=-1\socredit=-1\slcredit=-1\sminclass=3\smaxrepeat=0\smaxclassrepeat=0/ }
+  its('content') { should match /password\s+sufficient\s+pam_unix.so\ssha512/ }
+  its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
 end
