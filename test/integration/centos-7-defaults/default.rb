@@ -11,8 +11,12 @@ end
 
 describe file('/etc/pam.d/password-auth') do
   its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+  its('content') { should match /auth\s+\[default=die\]\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+  its('content') { should match /auth\s+sufficient\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
 end
 
 describe file('/etc/pam.d/system-auth') do
   its('content') { should match /auth\s+required\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+  its('content') { should match /auth\s+\[default=die\]\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
+  its('content') { should match /auth\s+sufficient\s+pam_faillock.so.*deny=5\sunlock_time=900/ }
 end

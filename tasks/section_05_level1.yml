@@ -443,12 +443,22 @@
     - section5.3.2
 
 - name: 5.3.2 Ensure lockout for failed password attempts is configured (Scored)
-  command: authconfig --enablefaillock --faillockargs="deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" --update
+  lineinfile:
+    dest: "{{ item.dest }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { dest: /etc/pam.d/password-auth-ac, regexp: '^auth\s+required', line: "auth required pam_faillock.so preauth audit silent deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
+    - { dest: /etc/pam.d/system-auth-ac, regexp: '^auth\s+required', line: "auth required pam_faillock.so preauth audit silent deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
+    - { dest: /etc/pam.d/password-auth-ac, regexp: '^auth\s+[success=1 default=bad]', line: "auth [success=1 default=bad] pam_unix.so" }
+    - { dest: /etc/pam.d/system-auth-ac, regexp: '^auth\s+[success=1 default=bad]', line: "auth [success=1 default=bad] pam_unix.so" }
+    - { dest: /etc/pam.d/password-auth-ac, regexp: '^auth\s+[default=die]', line: "auth [default=die] pam_faillock.so authfail audit deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
+    - { dest: /etc/pam.d/system-auth-ac, regexp: '^auth\s+[default=die]', line: "auth [default=die] pam_faillock.so authfail audit deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
+    - { dest: /etc/pam.d/password-auth-ac, regexp: '^auth\s+sufficient', line: "auth sufficient pam_faillock.so authsucc audit deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
+    - { dest: /etc/pam.d/system-auth-ac, regexp: '^auth\s+sufficient', line: "auth sufficient pam_faillock.so authsucc audit deny={{ pam.faillock.deny }} unlock_time={{ pam.faillock.unlock_time }}" }
   when:
     - ansible_distribution_major_version == "7"
     - pam.faillock.enabled
-    - ( "deny=%s" % pam.faillock.deny not in passwordauth_config.stdout ) or
-      ( "unlock_time=%s" % pam.faillock.unlock_time not in passwordauth_config.stdout )
   tags:
     - scored
     - section5.3
