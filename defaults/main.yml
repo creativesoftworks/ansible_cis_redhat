@@ -106,3 +106,7 @@ pam:
     requpper: yes # require at least one uppercase character in a password
     reqdigit: yes # require at least one digit in a password
     reqother: yes # require at least one special character in a password
+  faillock:
+    enabled: yes # enable account locking in case of too many consecutive authentication failures
+    deny: 5 # number of wrong password attempts before locking a user
+    unlock_time: 900 # The access will be reenabled after this period (in seconds), after a lock out occurs
